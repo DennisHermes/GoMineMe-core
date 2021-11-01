@@ -347,7 +347,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.STONE);
-							 item.setAmount(amount);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -383,7 +383,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.COAL_BLOCK);
-							 item.setAmount(amount);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -419,7 +419,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.IRON_BLOCK);
-							 item.setAmount(amount);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -435,6 +435,7 @@ public class Decompressor implements Listener {
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress gold")) {
 				if (hasItem(p, Material.GOLD_BLOCK)) {
+					int amount = takeItems(p, Material.GOLD_BLOCK);
 					p.closeInventory();
 					BlockLoc.getBlock().setType(Material.GOLD_BLOCK);
 					new BukkitRunnable() { 
@@ -454,7 +455,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.GOLD_BLOCK);
-							 item.setAmount(64);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -470,6 +471,7 @@ public class Decompressor implements Listener {
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress diamond")) {
 				if (hasItem(p, Material.DIAMOND_BLOCK)) {
+					int amount = takeItems(p, Material.DIAMOND_BLOCK);
 					p.closeInventory();
 					BlockLoc.getBlock().setType(Material.DIAMOND_BLOCK);
 					new BukkitRunnable() { 
@@ -489,7 +491,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.DIAMOND_BLOCK);
-							 item.setAmount(64);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -505,6 +507,7 @@ public class Decompressor implements Listener {
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress emerald")) {
 				if (hasItem(p, Material.EMERALD_BLOCK)) {
+					int amount = takeItems(p, Material.EMERALD_BLOCK);
 					p.closeInventory();
 					BlockLoc.getBlock().setType(Material.EMERALD_BLOCK);
 					new BukkitRunnable() { 
@@ -524,7 +527,7 @@ public class Decompressor implements Listener {
 						 @Override
 						 public void run() {
 							 ItemStack item = new ItemStack(Material.EMERALD_BLOCK);
-							 item.setAmount(64);
+							 item.setAmount(amount * 64);
 							 p.getInventory().addItem(item);
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
@@ -543,9 +546,81 @@ public class Decompressor implements Listener {
 		}
 	}
 	
-	private int takeItems(Player p, Material stone) {
-		// TODO Auto-generated method stub
-		return 0;
+	private int takeItems(Player p, Material type) {
+		ItemStack compressed = null;
+		if (type == Material.STONE) {
+			compressed = new ItemStack(Material.STONE);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.GRAY + "§lCompressed stone");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+		} else if (type == Material.COAL_BLOCK) {
+			compressed = new ItemStack(Material.COAL_BLOCK);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.DARK_GRAY + "§lCompressed coal");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+		} else if (type == Material.IRON_BLOCK) {
+			compressed = new ItemStack(Material.IRON_BLOCK);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.WHITE + "§lCompressed iron");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+		} else if (type == Material.GOLD_BLOCK) {
+			compressed = new ItemStack(Material.GOLD_BLOCK);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.GOLD + "§lCompressed gold");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+		} else if (type == Material.DIAMOND_BLOCK) {
+			compressed = new ItemStack(Material.DIAMOND_BLOCK);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.AQUA + "§lCompressed diamond");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+		} else if (type == Material.EMERALD_BLOCK) {
+			compressed = new ItemStack(Material.EMERALD_BLOCK);
+			ItemMeta compressedMeta = compressed.getItemMeta();
+			compressedMeta.setDisplayName(ChatColor.GREEN + "§lCompressed emerald");
+			compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			compressed.setItemMeta(compressedMeta);
+			compressed.setItemMeta(compressedMeta);
+		}
+		
+		File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder() + "/FastMachines.yml");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
+		
+		if (config.getBoolean(p.getName().toLowerCase())) {
+			int totalItems = 0;
+			for(int i = 0; i < p.getInventory().getSize(); i++) {
+				ItemStack item = p.getInventory().getItem(i);
+				int oldAmount = item.getAmount();
+				item.setAmount(1);
+				if (item == compressed) {
+					totalItems = totalItems + oldAmount;
+					p.getInventory().setItem(i, new ItemStack(Material.AIR));
+				}
+			}
+			return totalItems;
+		} else {
+			for(int i = 0; i < p.getInventory().getSize(); i++) {
+				ItemStack item = p.getInventory().getItem(i);
+				int oldAmount = item.getAmount();
+				item.setAmount(1);
+				if (item == compressed) {
+					item.setAmount(oldAmount - 1);
+					p.getInventory().setItem(i, item);
+					return 1;
+				}
+			}
+		}
+		return 1;
 	}
 
 	public static boolean hasItem(Player p, Material type) {
