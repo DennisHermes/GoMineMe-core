@@ -6,6 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Dhr. Hermes/Desktop/Minecraft server/Spigot/Minecraft 1.15/spigot-1.15.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dhr. Hermes/Desktop/Minecraft server/Spigot/Minecraft 1.17/spigot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

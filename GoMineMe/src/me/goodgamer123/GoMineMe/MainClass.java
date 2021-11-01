@@ -5,6 +5,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -176,6 +178,25 @@ public class MainClass extends JavaPlugin {
 		    } catch (Exception e) {
 				e.printStackTrace();
 		    }
+		}
+		
+		else if (cmd.getName().equalsIgnoreCase("rename")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "You need to be a player to do this!");
+				return false;
+			}
+			Player p = (Player)sender;
+			if (p.getEquipment().getItemInMainHand() != null) {
+				String message = "";
+	    		for(int i = 1; i < args.length; i++) {
+	    			message = message + args[i] + " ";
+	    		}
+	    		ItemStack item = p.getEquipment().getItemInMainHand();
+	    		ItemMeta itemMeta = item.getItemMeta();
+	    		itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', message));
+	    		item.setItemMeta(itemMeta);
+	    		p.getEquipment().setItemInMainHand(item);
+			}
 		}
 	    
 	    else if (cmd.getName().equalsIgnoreCase("colorcodes")) {

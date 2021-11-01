@@ -359,7 +359,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed stone!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed stone!");
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress coal")) {
 				if (hasItem(p, Material.COAL_BLOCK)) {
@@ -395,7 +395,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed coal!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed coal!");
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress iron")) {
 				if (hasItem(p, Material.IRON_BLOCK)) {
@@ -431,7 +431,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed iron!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed iron!");
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress gold")) {
 				if (hasItem(p, Material.GOLD_BLOCK)) {
@@ -467,7 +467,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed gold!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed gold!");
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress diamond")) {
 				if (hasItem(p, Material.DIAMOND_BLOCK)) {
@@ -503,7 +503,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed diamond!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed diamond!");
 				}
 			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress emerald")) {
 				if (hasItem(p, Material.EMERALD_BLOCK)) {
@@ -539,7 +539,7 @@ public class Decompressor implements Listener {
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
-					p.sendMessage(ChatColor.RED + "You don't have comressed emerald!");
+					p.sendMessage(ChatColor.RED + "You don't have compressed emerald!");
 				}
 			}
 			
@@ -600,23 +600,27 @@ public class Decompressor implements Listener {
 			int totalItems = 0;
 			for(int i = 0; i < p.getInventory().getSize(); i++) {
 				ItemStack item = p.getInventory().getItem(i);
-				int oldAmount = item.getAmount();
-				item.setAmount(1);
-				if (item == compressed) {
-					totalItems = totalItems + oldAmount;
-					p.getInventory().setItem(i, new ItemStack(Material.AIR));
+				if (item != null) {
+					int oldAmount = item.getAmount();
+					item.setAmount(1);
+					if (item.getItemMeta().getDisplayName() == compressed.getItemMeta().getDisplayName()) {
+						totalItems = totalItems + oldAmount;
+						p.getInventory().setItem(i, null);
+					}
 				}
 			}
 			return totalItems;
 		} else {
 			for(int i = 0; i < p.getInventory().getSize(); i++) {
 				ItemStack item = p.getInventory().getItem(i);
-				int oldAmount = item.getAmount();
-				item.setAmount(1);
-				if (item == compressed) {
-					item.setAmount(oldAmount - 1);
-					p.getInventory().setItem(i, item);
-					return 1;
+				if (item != null) {
+					int oldAmount = item.getAmount();
+					item.setAmount(1);
+					if (item.getItemMeta().getDisplayName() == compressed.getItemMeta().getDisplayName()) {
+						item.setAmount(oldAmount - 1);
+						p.getInventory().setItem(i, item);
+						return 1;
+					}
 				}
 			}
 		}
