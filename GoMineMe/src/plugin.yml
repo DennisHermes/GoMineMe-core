@@ -1,0 +1,35 @@
+main: me.goodgamer123.GoMineMe.MainClass
+name: GoMineMe
+version: 1.0
+api-version: 1.13
+author: goodgamer123
+description: GoMineMe prossing plugin.
+
+commands:
+   gomineme:
+    description: Get the plugin status.
+    permission: gomineme.status
+   clearchat:
+    description: Clear the chat.
+    permission: chat.clearchat
+    aliases: cc
+   togglechat:
+    description: toggle the chat.
+    permission: chat.togglechat
+    aliases:
+     - tc
+     - mc
+     - mutechat
+   broadcast:
+    description: broadcast a message.
+    permission: chat.broadcast
+    aliases: bc
+   elevatorcontroller:
+    description: summon a elevatorcontroller.
+    permission: gomineme.elevatorcontroller
+   lab:
+    description: teleport to the lab.
+   mine:
+    description: teleport to the mine.
+   start:
+    description: get an starter pickaxe.
