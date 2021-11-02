@@ -38,9 +38,9 @@ commands:
      - gamemode
     description: change gamemode.
     permission: gomineme.gamemode
-   tps:
-    description: get tps.
-    permission: gomineme.tps
    colorcodes:
     description: get colorcodes.
     permission: gomineme.colorcodes
+   rename:
+    description: change an items name.
+    permission: gomineme.rename
