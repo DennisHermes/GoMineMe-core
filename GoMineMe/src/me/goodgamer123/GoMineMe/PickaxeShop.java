@@ -39,6 +39,8 @@ public class PickaxeShop implements Listener {
     		        	upgradeMeta.setDisplayName(ChatColor.GREEN + "Click to upgrade");
     		        	ArrayList<String> upgradeLore = new ArrayList<String>();
     		        	upgradeLore.add(" ");
+    		        	upgradeLore.add(ChatColor.BLUE + "§lCost:");
+    		        	upgradeLore.add(" ");
 	    		        
 	    		        if (e.getPlayer().getEquipment().getItemInMainHand().getItemMeta().getDisplayName().contains("Starter pickaxe")) {
 	    		        	ItemStack bedrock = new ItemStack(Material.BEDROCK);
@@ -315,13 +317,247 @@ public class PickaxeShop implements Listener {
 	}
 
 	ItemStack pickaxe(int tier) {
-		return null;
-		// TODO Auto-generated method stub
+		ItemStack pickaxe = new ItemStack(Material.WOODEN_PICKAXE);
+		if (tier == 2) {
+			
+		} else if (tier == 3) {
+			
+		} else if (tier == 4) {
+			
+		} else if (tier == 5) {
+			
+		} else if (tier == 6) {
+			
+		} else if (tier == 7) {
+			
+		} else if (tier == 8) {
+			
+		} else if (tier == 9) {
+			
+		} else if (tier == 10) {
+			
+		} else if (tier == 11) {
+			
+		} else if (tier == 12) {
+			
+		} else if (tier == 13) {
+			
+		} else if (tier == 14) {
+			
+		} else if (tier == 15) {
+			
+		} else if (tier == 16) {
+			
+		} else if (tier == 17) {
+			
+		} else if (tier == 18) {
+			
+		} else if (tier == 19) {
+			
+		} else if (tier == 20) {
+			
+		} else if (tier == 21) {
+			
+		} else if (tier == 22) {
+			
+		} else if (tier == 23) {
+			
+		} else if (tier == 24) {
+			
+		} else if (tier == 25) {
+			
+		} else if (tier == 26) {
+			
+		} else if (tier == 27) {
+			
+		} else if (tier == 28) {
+			
+		} else if (tier == 29) {
+			
+		} else if (tier == 30) {
+			
+		} else if (tier == 31) {
+			
+		} else if (tier == 32) {
+			
+		} else if (tier == 33) {
+			
+		} else if (tier == 34) {
+			
+		} else if (tier == 35) {
+			
+		} else if (tier == 36) {
+			
+		} else if (tier == 37) {
+			
+		} else if (tier == 38) {
+			
+		} else if (tier == 39) {
+			
+		} else if (tier == 40) {
+			
+		} else if (tier == 41) {
+			
+		} else if (tier == 42) {
+			
+		} else if (tier == 43) {
+			
+		} else if (tier == 44) {
+			
+		} else if (tier == 45) {
+			
+		} else if (tier == 46) {
+			
+		} else if (tier == 47) {
+			
+		} else if (tier == 48) {
+			
+		} else if (tier == 49) {
+			
+		} else if (tier == 50) {
+			
+		} else if (tier == 51) {
+			
+		} else if (tier == 52) {
+			
+		} else if (tier == 53) {
+			
+		} else if (tier == 54) {
+			
+		} else if (tier == 55) {
+			
+		} else if (tier == 56) {
+			
+		} else if (tier == 57) {
+			
+		} else if (tier == 58) {
+			
+		} else if (tier == 59) {
+			
+		}
+		return pickaxe;
 	}
 	
 	ArrayList<String> upgradeNeed(int tier) {
-		
-		return null;
+		ArrayList<String> list = new ArrayList<String>();
+		if (tier == 2) {
+			list.add(ChatColor.GRAY + "• 16x Stone");
+		} else if (tier == 3) {
+			list.add(ChatColor.GRAY + "• 32x Stone");
+		} else if (tier == 4) {
+			list.add(ChatColor.GRAY + "• 64x Stone");
+		} else if (tier == 5) {
+			list.add(ChatColor.GRAY + "• 3x Compressed stone");
+		} else if (tier == 6) {
+			list.add(ChatColor.GRAY + "• 5x Compressed stone");
+		} else if (tier == 7) {
+			list.add(ChatColor.GRAY + "• 8x Compressed stone");
+		} else if (tier == 8) {
+			list.add(ChatColor.GRAY + "• 12x Compressed stone");
+		} else if (tier == 9) {
+			list.add(ChatColor.GRAY + "• 16x Compressed stone");
+		} else if (tier == 10) {
+			list.add(ChatColor.GRAY + "• 18x Compressed stone");
+		} else if (tier == 11) {
+			list.add(ChatColor.GRAY + "• 24x Compressed stone");
+		} else if (tier == 12) {
+			list.add(ChatColor.GRAY + "• 32x Compressed stone");
+		} else if (tier == 13) {
+			list.add(ChatColor.BLACK + "• 16x Coal block");
+		} else if (tier == 14) {
+			list.add(ChatColor.BLACK + "• 32x Coal block");
+		} else if (tier == 15) {
+			list.add(ChatColor.BLACK + "• 64x Coal block");
+		} else if (tier == 16) {
+			list.add(ChatColor.BLACK + "• 3x Compressed coal");
+		} else if (tier == 17) {
+			list.add(ChatColor.BLACK + "• 5x Compressed coal");
+		} else if (tier == 18) {
+			list.add(ChatColor.BLACK + "• 8x Compressed coal");
+		} else if (tier == 19) {
+			list.add(ChatColor.GRAY + "• 5x Stone infused coal");
+		} else if (tier == 20) {
+			list.add(ChatColor.GRAY + "• 8x Stone infused coal");
+		} else if (tier == 21) {
+			list.add(ChatColor.GRAY + "• 12x Stone infused coal");
+		} else if (tier == 22) {
+			list.add(ChatColor.GRAY + "• 16x Stone infused coal");
+		} else if (tier == 23) {
+			list.add(ChatColor.WHITE + "• 16x Iron block");
+		} else if (tier == 24) {
+			list.add(ChatColor.WHITE + "• 32x Iron block");
+		} else if (tier == 25) {
+			list.add(ChatColor.WHITE + "• 64x Iron block");
+		} else if (tier == 26) {
+			list.add(ChatColor.WHITE + "• 3x Compressed iron");
+		} else if (tier == 27) {
+			list.add(ChatColor.WHITE + "• 5x Compressed iron");
+		} else if (tier == 28) {
+			list.add(ChatColor.WHITE + "• 8x Compressed iron");
+		} else if (tier == 29) {
+			list.add(ChatColor.BLACK + "• 5x Coal infused iron");
+		} else if (tier == 30) {
+			list.add(ChatColor.BLACK + "• 8x Coal infused iron");
+		} else if (tier == 31) {
+			list.add(ChatColor.BLACK + "• 12x Coal infused iron");
+		} else if (tier == 32) {
+			list.add(ChatColor.BLACK + "• 16x Coal infused iron");
+		} else if (tier == 33) {
+			list.add(ChatColor.GOLD + "• 16x Gold block");
+		} else if (tier == 34) {
+			list.add(ChatColor.GOLD + "• 32x Gold block");
+		} else if (tier == 35) {
+			list.add(ChatColor.GOLD + "• 64x Gold block");
+		} else if (tier == 36) {
+			list.add(ChatColor.GOLD + "• 3x Compressed gold");
+		} else if (tier == 37) {
+			list.add(ChatColor.GOLD + "• 5x Compressed gold");
+		} else if (tier == 38) {
+			list.add(ChatColor.GOLD + "• 8x Compressed gold");
+		} else if (tier == 39) {
+			list.add(ChatColor.WHITE + "• 5x Iron infused gold");
+		} else if (tier == 40) {
+			list.add(ChatColor.WHITE + "• 8x Iron infused gold");
+		} else if (tier == 41) {
+			list.add(ChatColor.WHITE + "• 12x Iron infused gold");
+		} else if (tier == 42) {
+			list.add(ChatColor.WHITE + "• 16x Iron infused gold");
+		} else if (tier == 43) {
+			list.add(ChatColor.AQUA + "• 16x Diamond block");
+		} else if (tier == 44) {
+			list.add(ChatColor.AQUA + "• 32x Diamond block");
+		} else if (tier == 45) {
+			list.add(ChatColor.AQUA + "• 64x Diamond block");
+		} else if (tier == 46) {
+			list.add(ChatColor.AQUA + "• 3x Compressed diamond");
+		} else if (tier == 47) {
+			list.add(ChatColor.AQUA + "• 5x Compressed diamond");
+		} else if (tier == 48) {
+			list.add(ChatColor.AQUA + "• 8x Compressed diamond");
+		} else if (tier == 49) {
+			list.add(ChatColor.GOLD + "• 5x Gold infused diamond");
+		} else if (tier == 50) {
+			list.add(ChatColor.GOLD + "• 8x Gold infused diamond");
+		} else if (tier == 51) {
+			list.add(ChatColor.GOLD + "• 12x Gold infused diamond");
+		} else if (tier == 52) {
+			list.add(ChatColor.GOLD + "• 16x Gold infused diamond");
+		} else if (tier == 53) {
+			list.add(ChatColor.GREEN + "• 32x Emerald block");
+		} else if (tier == 54) {
+			list.add(ChatColor.GREEN + "• 64x Emerald block");
+		} else if (tier == 55) {
+			list.add(ChatColor.GREEN + "• 32x Compressed emerald");
+		} else if (tier == 56) {
+			list.add(ChatColor.GREEN + "• 32x Compressed emerald");
+		} else if (tier == 57) {
+			list.add(ChatColor.AQUA + "• 16x Diamond infused Emerald");
+		} else if (tier == 58) {
+			list.add(ChatColor.AQUA + "• 32x Diamond infused Emerald");
+		} else if (tier == 59) {
+			list.add(ChatColor.AQUA + "• 64x Diamond infused Emerald");
+		}
+		return list;
 	}
 	
 }
