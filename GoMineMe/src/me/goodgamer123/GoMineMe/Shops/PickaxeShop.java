@@ -1,4 +1,4 @@
-package me.goodgamer123.GoMineMe;
+package me.goodgamer123.GoMineMe.Shops;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import me.goodgamer123.GoMineMe.MainClass;
 
 public class PickaxeShop implements Listener {
 
@@ -318,8 +320,8 @@ public class PickaxeShop implements Listener {
 
 	ItemStack pickaxe(int tier) {
 		ItemStack pickaxe = new ItemStack(Material.WOODEN_PICKAXE);
+		ItemMeta pickaxeMeta = pickaxe.getItemMeta();
 		if (tier == 2) {
-			
 		} else if (tier == 3) {
 			
 		} else if (tier == 4) {
@@ -435,6 +437,7 @@ public class PickaxeShop implements Listener {
 		} else if (tier == 59) {
 			
 		}
+		pickaxe.setItemMeta(pickaxeMeta);
 		return pickaxe;
 	}
 	

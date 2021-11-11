@@ -1,4 +1,4 @@
-package me.goodgamer123.GoMineMe;
+package me.goodgamer123.GoMineMe.Machines;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,10 +17,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import me.goodgamer123.GoMineMe.MainClass;
+import me.goodgamer123.GoMineMe.CustomItems.Compressed;
 
 public class Compressor implements Listener {
 	
@@ -350,15 +351,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.STONE);
-							compressed.setAmount(a);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.GRAY + "§lCompressed stone");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedStone());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
@@ -416,14 +409,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.COAL_BLOCK);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.DARK_GRAY + "§lCompressed coal");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedCoal());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
@@ -481,14 +467,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.IRON_BLOCK);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.WHITE + "§lCompressed iron");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedIron());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
@@ -546,14 +525,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.GOLD_BLOCK);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.GOLD + "§lCompressed gold");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedGold());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
@@ -611,14 +583,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.DIAMOND_BLOCK);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.AQUA + "§lCompressed diamond");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedDiamond());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {
@@ -675,14 +640,7 @@ public class Compressor implements Listener {
 					 new BukkitRunnable() { 
 						 @Override
 						 public void run() {
-							loc.getBlock().setType(Material.AIR);
-							ItemStack compressed = new ItemStack(Material.EMERALD_BLOCK);
-							ItemMeta compressedMeta = compressed.getItemMeta();
-							compressedMeta.setDisplayName(ChatColor.GREEN + "§lCompressed emerald");
-							compressedMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-							compressedMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-							compressed.setItemMeta(compressedMeta);
-							p.getInventory().addItem(compressed);
+							p.getInventory().addItem(Compressed.compressedEmerald());
 						 }
 					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 				} else {

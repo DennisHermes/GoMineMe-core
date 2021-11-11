@@ -9,6 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.goodgamer123.GoMineMe.Machines.Compressor;
+import me.goodgamer123.GoMineMe.Machines.Decompressor;
+import me.goodgamer123.GoMineMe.Shops.PickaxeShop;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -23,7 +27,7 @@ public class MainClass extends JavaPlugin {
 	File newConfig;
 	FileConfiguration newConfigz;
 	
-	static String prefix = ChatColor.BLACK + "[" + ChatColor.GREEN + "GoMineMe" + ChatColor.BLACK + "]";
+	public static String prefix = ChatColor.BLACK + "[" + ChatColor.GREEN + "GoMineMe" + ChatColor.BLACK + "]";
 	
 	public void onEnable() {
 		
@@ -69,17 +73,16 @@ public class MainClass extends JavaPlugin {
 		}
 		
 		if (new Location(Bukkit.getWorld("World"), 0,  0, 0).getBlock().getType().equals(Material.SPONGE)) {
-			this.getLogger().warning(ChatColor.RED + "Dennis heeft waarschijnlijk de GoMineMe core gedisabled!");
-			this.getLogger().warning(ChatColor.RED + "Vast met een rede, doe eens lief tegen mij!");
-			this.getLogger().warning(ChatColor.RED + "Ik bedoel, ik heb deze hele core ook geprogrameerd weet je, gratis!");
-			this.getLogger().warning(ChatColor.BLUE + "Tracking IP...");
-			this.getLogger().warning(ChatColor.BLUE + this.getServer().getIp());
-			this.getLogger().warning(ChatColor.RED + "Starting DDOS in:");
-			this.getLogger().warning(ChatColor.RED + "Starting DDOS in: 3");
-			this.getLogger().warning(ChatColor.RED + "Starting DDOS in: 2");
-			this.getLogger().warning(ChatColor.RED + "Starting DDOS in: 1");
-			this.getLogger().warning(ChatColor.GREEN + "FAKE!");
-			this.getLogger().warning(ChatColor.GREEN + "was maar een grapje, maar ik ben nog steeds boos, denk ik...");
+			getLogger().warning(ChatColor.RED + "Dennis heeft waarschijnlijk de GoMineMe core gedisabled!");
+			getLogger().warning(ChatColor.RED + "Vast met een rede, doe eens lief tegen mij!");
+			getLogger().warning(ChatColor.BLUE + "Tracking IP...");
+			getLogger().warning(ChatColor.BLUE + this.getServer().getIp());
+			getLogger().warning(ChatColor.RED + "Starting DDOS in:");
+			getLogger().warning(ChatColor.RED + "Starting DDOS in: 3");
+			getLogger().warning(ChatColor.RED + "Starting DDOS in: 2");
+			getLogger().warning(ChatColor.RED + "Starting DDOS in: 1");
+			getLogger().warning(ChatColor.GREEN + "FAKE!");
+			getLogger().warning(ChatColor.GREEN + "was maar een grapje, maar ik ben nog steeds boos, denk ik...");
 			getServer().getPluginManager().disablePlugin(this);
 		}
 		
