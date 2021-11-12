@@ -106,14 +106,12 @@ public class Compressor implements Listener {
 				fastMeta.setLore(fastLore);
 				fast.setItemMeta(fastMeta);
 				
-	        	Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
+	        	Inventory compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor");
 	        	
 	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -151, 226, 4))) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
 	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
 	        	
-	        	for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);
@@ -133,7 +131,6 @@ public class Compressor implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
-		if (e.getView().getBottomInventory() == e.getClickedInventory()) return;
 		Player p = (Player) e.getWhoClicked();
 		
 		if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lCompressor")) {
@@ -201,13 +198,9 @@ public class Compressor implements Listener {
 				config.set(p.getName().toLowerCase(), false);
 				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
-				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
-				if (e.getView().getTitle().contains("1")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
+				Inventory compressor = Bukkit.createInventory(null, 36, e.getView().getTitle());
 	        	
-				for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+				for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);
@@ -276,13 +269,9 @@ public class Compressor implements Listener {
 				config.set(p.getName().toLowerCase(), true);
 				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
-				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
-				if (e.getView().getTitle().contains("1")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
+				Inventory compressor = Bukkit.createInventory(null, 36, e.getView().getTitle());
 				
-				for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+				for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);

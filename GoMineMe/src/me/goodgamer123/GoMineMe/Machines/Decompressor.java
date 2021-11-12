@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.goodgamer123.GoMineMe.MainClass;
+import me.goodgamer123.GoMineMe.CustomItems.Compressed;
 
 public class Decompressor implements Listener {
 
@@ -40,6 +41,11 @@ public class Decompressor implements Listener {
 				ItemMeta FillingMeta = Filling.getItemMeta();
 				FillingMeta.setDisplayName(" ");
 				Filling.setItemMeta(FillingMeta);
+				
+				ItemStack done = new ItemStack(Material.EMERALD);
+				ItemMeta doneMeta = done.getItemMeta();
+				doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
+				done.setItemMeta(doneMeta);
 				
 				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
 				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
@@ -81,12 +87,11 @@ public class Decompressor implements Listener {
 	        	else if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -144, 226, 10))) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 2");
 	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 3");
 	        	
-	        	for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(13, new ItemStack(Material.AIR));
-				compressor.setItem(30, fast);
-				compressor.setItem(32, Close);
+				compressor.setItem(27, fast);
+				compressor.setItem(30, Close);
+				compressor.setItem(32, done);
 				p.openInventory(compressor);
 	        }
 	    }
@@ -95,7 +100,8 @@ public class Decompressor implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
-		if (e.getView().getBottomInventory() == e.getClickedInventory() && e.getSlot() != 13) return;
+		if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
+		if (e.getSlot() == 13) return;
 		Player p = (Player) e.getWhoClicked();
 		
 		if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lDecompressor")) {
@@ -116,6 +122,11 @@ public class Decompressor implements Listener {
 				FillingMeta.setDisplayName(" ");
 				Filling.setItemMeta(FillingMeta);
 				
+				ItemStack done = new ItemStack(Material.EMERALD);
+				ItemMeta doneMeta = done.getItemMeta();
+				doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
+				done.setItemMeta(doneMeta);
+				
 				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
 				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
 				
@@ -132,17 +143,13 @@ public class Decompressor implements Listener {
 				config.set(p.getName().toLowerCase(), false);
 				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
-				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lDecompressor");
-				if (e.getView().getTitle().contains("1")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 1");
-				else if (e.getView().getTitle().contains("2")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 2");
-	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 3");
+				Inventory compressor = Bukkit.createInventory(null, 36, e.getView().getTitle());
 				
-				for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+				for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(13, new ItemStack(Material.AIR));
-				compressor.setItem(30, fast);
-				compressor.setItem(32, Close);
+				compressor.setItem(27, fast);
+				compressor.setItem(30, Close);
+				compressor.setItem(32, done);
 				p.openInventory(compressor);
 				
 			} else if (e.getCurrentItem().getType().equals(Material.RED_DYE)) {
@@ -156,6 +163,11 @@ public class Decompressor implements Listener {
 				ItemMeta FillingMeta = Filling.getItemMeta();
 				FillingMeta.setDisplayName(" ");
 				Filling.setItemMeta(FillingMeta);
+				
+				ItemStack done = new ItemStack(Material.EMERALD);
+				ItemMeta doneMeta = done.getItemMeta();
+				doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
+				done.setItemMeta(doneMeta);
 				
 				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
 				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
@@ -173,17 +185,13 @@ public class Decompressor implements Listener {
 				config.set(p.getName().toLowerCase(), true);
 				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
-				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
-				if (e.getView().getTitle().contains("1"))  compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 1");
-				else if (e.getView().getTitle().contains("2"))  compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 2");
-	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lDecompressor 3");
+				Inventory compressor = Bukkit.createInventory(null, 36, e.getView().getTitle());
 	        	
-				for (int i = 0; i < compressor.getSize(); i++) {
-					compressor.setItem(i, Filling);
-				}
+				for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(13, new ItemStack(Material.AIR));
-				compressor.setItem(30, fast);
-				compressor.setItem(32, Close);
+				compressor.setItem(27, fast);
+				compressor.setItem(30, Close);
+				compressor.setItem(32, done);
 				p.openInventory(compressor);
 			}
 			
@@ -205,9 +213,24 @@ public class Decompressor implements Listener {
 				Red2 = new Location(p.getWorld(), -142, 223, 15);
 			}
 			
-			if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to decompress stone")) {
+			if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+				ItemStack item = e.getInventory().getItem(13);
+				int itemAmount = item.getAmount();
+				item.setAmount(1);
+				
+				if (!item.equals(Compressed.compressedStone()) && !item.equals(Compressed.compressedCoal()) && !item.equals(Compressed.compressedIron()) && !item.equals(Compressed.compressedGold()) && !item.equals(Compressed.compressedDiamond()) && !item.equals(Compressed.compressedEmerald())) return;
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
+				if (itemAmount > 1) {
+					if (!config.getBoolean(p.getName().toLowerCase())) {
+						item.setAmount(item.getAmount() - 1);
+						p.getInventory().addItem(item);
+					}
+				}
+				
 				p.closeInventory();
-				BlockLoc.getBlock().setType(Material.STONE);
+				BlockLoc.getBlock().setType(item.getType());
 				new BukkitRunnable() { 
 					@Override
 					public void run() {
@@ -224,9 +247,9 @@ public class Decompressor implements Listener {
 				new BukkitRunnable() { 
 					@Override
 					public void run() {
-						ItemStack item = new ItemStack(Material.STONE);
-						item.setAmount(64);
-						p.getInventory().addItem(item);
+						ItemStack itemBack = new ItemStack(item.getType());
+						itemBack.setAmount(itemAmount * 64);
+						p.getInventory().addItem(itemBack);
 					 }
 				}.runTaskLater(MainClass.getPlugin(MainClass.class), 40);
 				new BukkitRunnable() { 
