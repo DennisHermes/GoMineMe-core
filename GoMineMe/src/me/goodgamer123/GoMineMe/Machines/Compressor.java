@@ -67,65 +67,53 @@ public class Compressor implements Listener {
 				CloseMeta.setDisplayName(ChatColor.RED + "Close");
 				Close.setItemMeta(CloseMeta);
 
+				ItemStack Filling = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+				ItemMeta FillingMeta = Filling.getItemMeta();
+				FillingMeta.setDisplayName(" ");
+				Filling.setItemMeta(FillingMeta);
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
+				
 				ItemStack fast = null;
-				File customYml2 = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml2);
+				ItemMeta fastMeta = Close.getItemMeta();
+				fastMeta.setDisplayName(ChatColor.GOLD + "§lFast compressor");
+				ArrayList<String> fastLore = new ArrayList<String>();
 				
 				if (!p.hasPermission("machines.fast")) {
 					fast = new ItemStack(Material.ORANGE_DYE);
-					ItemMeta fastMeta = Close.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast compressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
 					fastLore.add(ChatColor.BLUE + "Buy " + ChatColor.GOLD + "§lV" + ChatColor.YELLOW + "§lI" + ChatColor.GOLD + "§lP" + ChatColor.BLUE + " to get access to ");
 					fastLore.add(ChatColor.BLUE + "this and other unique functions!");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
 				} else if ((config.get(p.getName().toLowerCase()) == null)) {
 					fast = new ItemStack(Material.LIME_DYE);
-					ItemMeta fastMeta = Close.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast compressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
 					fastLore.add(ChatColor.GREEN + "Fast compressor is enabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
 					config.set(p.getName().toLowerCase(), true);
-					try {
-						config.save(customYml2);
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					}
+					try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				} else if (config.getBoolean(p.getName().toLowerCase())) {
 					fast = new ItemStack(Material.LIME_DYE);
-					ItemMeta fastMeta = Close.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast compressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
 					fastLore.add(ChatColor.GREEN + "Fast compressor is enabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
 				} else {
 					fast = new ItemStack(Material.RED_DYE);
-					ItemMeta fastMeta = Close.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast compressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
 					fastLore.add(ChatColor.RED + "Fast compressor is disabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
 				}
+				
+				fastMeta.setLore(fastLore);
+				fast.setItemMeta(fastMeta);
 				
 	        	Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
 	        	
-	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -151, 226, 4))) {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	} else {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
-	        	}
+	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -151, 226, 4))) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
+	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
 	        	
+	        	for (int i = 0; i < compressor.getSize(); i++) {
+					compressor.setItem(i, Filling);
+				}
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);
@@ -145,6 +133,7 @@ public class Compressor implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
+		if (e.getView().getBottomInventory() == e.getClickedInventory()) return;
 		Player p = (Player) e.getWhoClicked();
 		
 		if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lCompressor")) {
@@ -191,8 +180,13 @@ public class Compressor implements Listener {
 				CloseMeta.setDisplayName(ChatColor.RED + "Close");
 				Close.setItemMeta(CloseMeta);
 
-				File customYml2 = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml2);
+				ItemStack Filling = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+				ItemMeta FillingMeta = Filling.getItemMeta();
+				FillingMeta.setDisplayName(" ");
+				Filling.setItemMeta(FillingMeta);
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
 				
 				ItemStack fast = new ItemStack(Material.RED_DYE);
 				ItemMeta fastMeta = Close.getItemMeta();
@@ -205,18 +199,15 @@ public class Compressor implements Listener {
 				fast.setItemMeta(fastMeta);
 				
 				config.set(p.getName().toLowerCase(), false);
-				try {
-					config.save(customYml2);
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
 				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
-				if (e.getView().getTitle().contains("1")) {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	} else {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
-	        	}
+				if (e.getView().getTitle().contains("1")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
+	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
+	        	
+				for (int i = 0; i < compressor.getSize(); i++) {
+					compressor.setItem(i, Filling);
+				}
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);
@@ -264,8 +255,13 @@ public class Compressor implements Listener {
 				CloseMeta.setDisplayName(ChatColor.RED + "Close");
 				Close.setItemMeta(CloseMeta);
 
-				File customYml2 = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml2);
+				ItemStack Filling = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+				ItemMeta FillingMeta = Filling.getItemMeta();
+				FillingMeta.setDisplayName(" ");
+				Filling.setItemMeta(FillingMeta);
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
 
 				ItemStack fast = new ItemStack(Material.LIME_DYE);
 				ItemMeta fastMeta = Close.getItemMeta();
@@ -278,18 +274,15 @@ public class Compressor implements Listener {
 				fast.setItemMeta(fastMeta);
 				
 				config.set(p.getName().toLowerCase(), true);
-				try {
-					config.save(customYml2);
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				
 				Inventory compressor = Bukkit.createInventory(null, 27, ChatColor.BLUE + "§lCompressor");
-				if (e.getView().getTitle().contains("1")) {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	} else {
-	        		compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
-	        	}
+				if (e.getView().getTitle().contains("1")) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
+	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
+				
+				for (int i = 0; i < compressor.getSize(); i++) {
+					compressor.setItem(i, Filling);
+				}
 				compressor.setItem(10, Stone);
 				compressor.setItem(11, Coal);
 				compressor.setItem(12, Iron);
