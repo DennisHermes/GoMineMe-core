@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.goodgamer123.GoMineMe.MainClass;
+import me.goodgamer123.GoMineMe.CustomItems.Compressed;
 
 public class Infuser implements Listener {
 
@@ -66,7 +67,7 @@ public class Infuser implements Listener {
 
 				ItemStack fast = null;
 				ItemMeta fastMeta = Close.getItemMeta();
-				fastMeta.setDisplayName(ChatColor.GOLD + "§lFast decompressor");
+				fastMeta.setDisplayName(ChatColor.GOLD + "§lFast infuser");
 				ArrayList<String> fastLore = new ArrayList<String>();
 				
 				if (!p.hasPermission("machines.fast")) {
@@ -75,19 +76,19 @@ public class Infuser implements Listener {
 					fastLore.add(ChatColor.BLUE + "this and other unique functions!");
 				} else if ((config.get(p.getName().toLowerCase()) == null)) {
 					fast = new ItemStack(Material.LIME_DYE);
-					fastLore.add(ChatColor.GREEN + "Fast decompressor is enabled");
+					fastLore.add(ChatColor.GREEN + "Fast infuser is enabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
 					config.set(p.getName().toLowerCase(), true);
 					try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
 				} else if (config.getBoolean(p.getName().toLowerCase())) {
 					fast = new ItemStack(Material.LIME_DYE);
-					fastLore.add(ChatColor.GREEN + "Fast decompressor is enabled");
+					fastLore.add(ChatColor.GREEN + "Fast infuser is enabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
 				} else {
 					fast = new ItemStack(Material.RED_DYE);
-					fastLore.add(ChatColor.RED + "Fast decompressor is disabled");
+					fastLore.add(ChatColor.RED + "Fast infuser is disabled");
 					fastLore.add(" ");
 					fastLore.add(ChatColor.BLUE + "Click to toggle");
 				}
@@ -120,15 +121,53 @@ public class Infuser implements Listener {
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
 		
-		if (e.getSlot() == 12) {
+		if (e.getSlot() == 12 && e.getSlot() == 30) {
+			ItemStack itemInfusing = e.getInventory().getItem(12);
+			ItemStack infusedItem = e.getInventory().getItem(30);
 			
-			return;
-		} else if (e.getSlot() == 30) {
-			ItemStack item = e.getInventory().getItem(30);
-			item.setType(e.getCurrentItem().getType());
-			if (e.getInventory().getItem(14) != null) {
-				
+			itemInfusing.setAmount(1);
+			infusedItem.setAmount(1);
+			
+			String resultName = "";
+			ItemStack result = new ItemStack(Material.STONE);
+					
+			if (itemInfusing.equals(Compressed.compressedStone())) resultName = ChatColor.GRAY + "Stone infussed ";
+			else if (itemInfusing.equals(Compressed.compressedCoal())) resultName = ChatColor.BLACK + "Coal infussed ";
+			else if (itemInfusing.equals(Compressed.compressedIron())) resultName = ChatColor.WHITE + "Iron infussed ";
+			else if (itemInfusing.equals(Compressed.compressedGold())) resultName = ChatColor.GOLD + "Gold infussed ";
+			else if (itemInfusing.equals(Compressed.compressedDiamond())) resultName = ChatColor.AQUA + "Diamond infussed ";
+			else if (itemInfusing.equals(Compressed.compressedEmerald())) resultName = ChatColor.GREEN + "Emerald infussed ";
+			
+			if (infusedItem.equals(Compressed.compressedStone())) {
+				resultName = resultName + "stone";
 			}
+			else if (infusedItem.equals(Compressed.compressedCoal())) {
+				resultName = resultName + "coal";
+				result.setType(Material.COAL_BLOCK);
+			}
+			else if (infusedItem.equals(Compressed.compressedIron())) {
+				resultName = resultName + "iron";
+				result.setType(Material.IRON_BLOCK);
+			}
+			else if (infusedItem.equals(Compressed.compressedGold())) {
+				resultName = resultName + "gold";
+				result.setType(Material.GOLD_BLOCK);
+			}
+			else if (infusedItem.equals(Compressed.compressedDiamond())) {
+				resultName = resultName + "diamond";
+				result.setType(Material.DIAMOND_BLOCK);
+			}
+			else if (infusedItem.equals(Compressed.compressedEmerald())) {
+				resultName = resultName + "emerald";
+				result.setType(Material.EMERALD_BLOCK);
+			}
+			
+			ItemMeta resultMeta = result.getItemMeta();
+			resultMeta.setDisplayName(resultName);
+			result.setItemMeta(resultMeta);
+			
+			e.getInventory().setItem(14, result);
+			
 			return;
 		}
 		
