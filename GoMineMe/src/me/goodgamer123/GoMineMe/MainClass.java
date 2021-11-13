@@ -12,7 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.goodgamer123.GoMineMe.Machines.Compressor;
 import me.goodgamer123.GoMineMe.Machines.Decompressor;
 import me.goodgamer123.GoMineMe.Machines.Infuser;
-import me.goodgamer123.GoMineMe.Machines.MachineClose;
 import me.goodgamer123.GoMineMe.Shops.PickaxeShop;
 
 import java.io.File;
@@ -36,12 +35,14 @@ public class MainClass extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new Compressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Decompressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Infuser(), this);
-		Bukkit.getPluginManager().registerEvents(new MachineClose(), this);
+		Bukkit.getPluginManager().registerEvents(new InventoryClose(), this);
 		
 		Bukkit.getPluginManager().registerEvents(new Chat(), this);
 		
 		Bukkit.getPluginManager().registerEvents(new Elevator(), this);
 		Bukkit.getPluginManager().registerEvents(new Tutorial(), this);
+		
+		Bukkit.getPluginManager().registerEvents(new AutoPickup(), this);
 		
 		Bukkit.getPluginManager().registerEvents(new Start(), this);
 		Bukkit.getPluginManager().registerEvents(new PickaxeShop(), this);

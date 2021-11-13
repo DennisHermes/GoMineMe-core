@@ -230,6 +230,7 @@ public class Decompressor implements Listener {
 					}
 				}
 				
+				e.getClickedInventory().setItem(13, new ItemStack(Material.AIR));
 				p.closeInventory();
 				BlockLoc.getBlock().setType(item.getType());
 				new BukkitRunnable() { 

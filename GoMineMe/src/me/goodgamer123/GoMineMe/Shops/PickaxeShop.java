@@ -6,9 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -319,6 +321,35 @@ public class PickaxeShop implements Listener {
 	    	}
 	    }
 	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if (e.getCurrentItem() == null) return;
+		
+		if (e.getView().getTitle().equals(ChatColor.BLUE + "§lPickaxe upgrade")) {
+			if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
+			Player p = (Player) e.getWhoClicked();
+			
+			e.setCancelled(true);
+			p.updateInventory();
+			
+			if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+				if (e.getInventory().getItem(31) != null) {
+					
+					String cost = e.getCurrentItem().getItemMeta().getLore().get(3);
+					
+					Material type = Material.STONE;
+					boolean compressed = false;
+					boolean infused = false;
+					
+					p.closeInventory();
+					p.getEquipment().setItemInMainHand(e.getClickedInventory().getItem(15));
+				} else {
+					p.sendMessage(MainClass.prefix + ChatColor.RED + "You need to put the requested items in the slot above the emerald!");
+				}
+			}
+		}
+	}
 
 	ItemStack pickaxe(int tier) {
 		ItemStack pickaxe = new ItemStack(Material.WOODEN_PICKAXE);
@@ -351,34 +382,39 @@ public class PickaxeShop implements Listener {
 			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 10) {
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
-			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
+			pickaxe.setType(Material.STONE_PICKAXE);
 		} else if (tier == 11) {
 			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 12) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
 		} else if (tier == 13) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 		} else if (tier == 14) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
 		} else if (tier == 15) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 16) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 17) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 18) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 19) {
 			pickaxe.setType(Material.STONE_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 20) {
 			pickaxe.setType(Material.IRON_PICKAXE);
 		} else if (tier == 21) {
@@ -386,28 +422,33 @@ public class PickaxeShop implements Listener {
 			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 22) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
 		} else if (tier == 23) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 		} else if (tier == 24) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
 		} else if (tier == 25) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 26) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 27) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 28) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 29) {
 			pickaxe.setType(Material.IRON_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 30) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
 		} else if (tier == 31) {
@@ -415,28 +456,33 @@ public class PickaxeShop implements Listener {
 			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 32) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
 		} else if (tier == 33) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 		} else if (tier == 34) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
 		} else if (tier == 35) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 36) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 37) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 38) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 39) {
 			pickaxe.setType(Material.GOLDEN_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 40) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
 		} else if (tier == 41) {
@@ -444,58 +490,73 @@ public class PickaxeShop implements Listener {
 			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 42) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
 		} else if (tier == 43) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 		} else if (tier == 44) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
 		} else if (tier == 45) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 46) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 47) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 48) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 49) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 50) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 51) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 52) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 53) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 54) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 5, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 55) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 6, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 56) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 7, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 57) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 8, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 58) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 9, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		} else if (tier == 59) {
 			pickaxe.setType(Material.DIAMOND_PICKAXE);
-			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 10, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
 		}
 		pickaxe.setItemMeta(pickaxeMeta);
 		return pickaxe;

@@ -169,138 +169,140 @@ public class Infuser implements Listener {
 				}
 				
 				ItemMeta resultMeta = result.getItemMeta();
+				resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+				resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 				resultMeta.setDisplayName(resultName);
 				result.setItemMeta(resultMeta);
 				
 				e.getInventory().setItem(14, result);
 			}
-			
-			if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lInfuser")) {
-				e.setCancelled(true);
-				p.updateInventory();
 				
-				if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
-					p.closeInventory();
-				} else if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
-					ItemStack Close = new ItemStack(Material.BARRIER);
-					ItemMeta CloseMeta = Close.getItemMeta();
-					CloseMeta.setDisplayName(ChatColor.RED + "Close");
-					Close.setItemMeta(CloseMeta);
-					
-					ItemStack Filling = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
-					ItemMeta FillingMeta = Filling.getItemMeta();
-					FillingMeta.setDisplayName(" ");
-					Filling.setItemMeta(FillingMeta);
-					
-					ItemStack hopper = new ItemStack(Material.HOPPER);
-					ItemMeta hopperMeta = hopper.getItemMeta();
-					hopperMeta.setDisplayName(" ");
-					hopper.setItemMeta(hopperMeta);
-					
-					ItemStack done = new ItemStack(Material.EMERALD);
-					ItemMeta doneMeta = done.getItemMeta();
-					doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
-					done.setItemMeta(doneMeta);
-					
-					ItemStack result = new ItemStack(Material.BLACK_WOOL);
-					ItemMeta resultMeta = result.getItemMeta();
-					ArrayList<String> resultLore = new ArrayList<String>();
-					resultMeta.setDisplayName(ChatColor.BLUE + "Insert an item in the top slot");
-					resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-					resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-					resultLore.add(ChatColor.BLUE + "and an item in te bottom slot!");
-					resultMeta.setLore(resultLore);
-					result.setItemMeta(resultMeta);
-					
-					File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-					FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-					
-					ItemStack fast = new ItemStack(Material.RED_DYE);
-					ItemMeta fastMeta = fast.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast decompressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
-					fastLore.add(ChatColor.RED + "Fast decompressor is disabled");
-					fastLore.add(" ");
-					fastLore.add(ChatColor.BLUE + "Click to toggle");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
-					
-					config.set(p.getName().toLowerCase(), false);
-					try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
-					
-					Inventory compressor = Bukkit.createInventory(null, 54, e.getView().getTitle());
-		        	
-		        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
-					compressor.setItem(12, new ItemStack(Material.AIR));
-					compressor.setItem(21, hopper);
-					compressor.setItem(30, new ItemStack(Material.AIR));
-					compressor.setItem(14, result);
-					compressor.setItem(32, done);
-					compressor.setItem(48, fast);
-					compressor.setItem(50, Close);
-					p.openInventory(compressor);
-				} else if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
-					ItemStack Close = new ItemStack(Material.BARRIER);
-					ItemMeta CloseMeta = Close.getItemMeta();
-					CloseMeta.setDisplayName(ChatColor.RED + "Close");
-					Close.setItemMeta(CloseMeta);
-					
-					ItemStack Filling = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
-					ItemMeta FillingMeta = Filling.getItemMeta();
-					FillingMeta.setDisplayName(" ");
-					Filling.setItemMeta(FillingMeta);
-					
-					ItemStack hopper = new ItemStack(Material.HOPPER);
-					ItemMeta hopperMeta = hopper.getItemMeta();
-					hopperMeta.setDisplayName(" ");
-					hopper.setItemMeta(hopperMeta);
-					
-					ItemStack done = new ItemStack(Material.EMERALD);
-					ItemMeta doneMeta = done.getItemMeta();
-					doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
-					done.setItemMeta(doneMeta);
-					
-					ItemStack result = new ItemStack(Material.BLACK_WOOL);
-					ItemMeta resultMeta = result.getItemMeta();
-					ArrayList<String> resultLore = new ArrayList<String>();
-					resultMeta.setDisplayName(ChatColor.BLUE + "Insert an item in the top slot");
-					resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-					resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-					resultLore.add(ChatColor.BLUE + "and an item in te bottom slot!");
-					resultMeta.setLore(resultLore);
-					result.setItemMeta(resultMeta);
-					
-					File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-					FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-					
-					ItemStack fast = new ItemStack(Material.LIME_DYE);
-					ItemMeta fastMeta = fast.getItemMeta();
-					fastMeta.setDisplayName(ChatColor.GOLD + "§lFast decompressor");
-					ArrayList<String> fastLore = new ArrayList<String>();
-					fastLore.add(ChatColor.GREEN + "Fast decompressor is enabled");
-					fastLore.add(" ");
-					fastLore.add(ChatColor.BLUE + "Click to toggle");
-					fastMeta.setLore(fastLore);
-					fast.setItemMeta(fastMeta);
-					
-					config.set(p.getName().toLowerCase(), false);
-					try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
-					
-					Inventory compressor = Bukkit.createInventory(null, 54, e.getView().getTitle());
-		        	
-		        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
-					compressor.setItem(12, new ItemStack(Material.AIR));
-					compressor.setItem(21, hopper);
-					compressor.setItem(30, new ItemStack(Material.AIR));
-					compressor.setItem(14, result);
-					compressor.setItem(32, done);
-					compressor.setItem(48, fast);
-					compressor.setItem(50, Close);
-					p.openInventory(compressor);
-				} else if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
-					
-					p.getInventory().addItem(e.getInventory().getItem(30));
-				}
+			if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
+				p.closeInventory();
+			} else if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
+				ItemStack Close = new ItemStack(Material.BARRIER);
+				ItemMeta CloseMeta = Close.getItemMeta();
+				CloseMeta.setDisplayName(ChatColor.RED + "Close");
+				Close.setItemMeta(CloseMeta);
+				
+				ItemStack Filling = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
+				ItemMeta FillingMeta = Filling.getItemMeta();
+				FillingMeta.setDisplayName(" ");
+				Filling.setItemMeta(FillingMeta);
+				
+				ItemStack hopper = new ItemStack(Material.HOPPER);
+				ItemMeta hopperMeta = hopper.getItemMeta();
+				hopperMeta.setDisplayName(" ");
+				hopper.setItemMeta(hopperMeta);
+				
+				ItemStack done = new ItemStack(Material.EMERALD);
+				ItemMeta doneMeta = done.getItemMeta();
+				doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
+				done.setItemMeta(doneMeta);
+				
+				ItemStack result = new ItemStack(Material.BLACK_WOOL);
+				ItemMeta resultMeta = result.getItemMeta();
+				ArrayList<String> resultLore = new ArrayList<String>();
+				resultMeta.setDisplayName(ChatColor.BLUE + "Insert an item in the top slot");
+				resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+				resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				resultLore.add(ChatColor.BLUE + "and an item in te bottom slot!");
+				resultMeta.setLore(resultLore);
+				result.setItemMeta(resultMeta);
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
+				
+				ItemStack fast = new ItemStack(Material.RED_DYE);
+				ItemMeta fastMeta = fast.getItemMeta();
+				fastMeta.setDisplayName(ChatColor.GOLD + "§lFast decompressor");
+				ArrayList<String> fastLore = new ArrayList<String>();
+				fastLore.add(ChatColor.RED + "Fast decompressor is disabled");
+				fastLore.add(" ");
+				fastLore.add(ChatColor.BLUE + "Click to toggle");
+				fastMeta.setLore(fastLore);
+				fast.setItemMeta(fastMeta);
+				
+				config.set(p.getName().toLowerCase(), false);
+				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
+				
+				Inventory compressor = Bukkit.createInventory(null, 54, e.getView().getTitle());
+	        	
+	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
+				compressor.setItem(12, new ItemStack(Material.AIR));
+				compressor.setItem(21, hopper);
+				compressor.setItem(30, new ItemStack(Material.AIR));
+				compressor.setItem(14, result);
+				compressor.setItem(32, done);
+				compressor.setItem(48, fast);
+				compressor.setItem(50, Close);
+				p.openInventory(compressor);
+			} else if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
+				ItemStack Close = new ItemStack(Material.BARRIER);
+				ItemMeta CloseMeta = Close.getItemMeta();
+				CloseMeta.setDisplayName(ChatColor.RED + "Close");
+				Close.setItemMeta(CloseMeta);
+				
+				ItemStack Filling = new ItemStack(Material.PURPLE_STAINED_GLASS_PANE);
+				ItemMeta FillingMeta = Filling.getItemMeta();
+				FillingMeta.setDisplayName(" ");
+				Filling.setItemMeta(FillingMeta);
+				
+				ItemStack hopper = new ItemStack(Material.HOPPER);
+				ItemMeta hopperMeta = hopper.getItemMeta();
+				hopperMeta.setDisplayName(" ");
+				hopper.setItemMeta(hopperMeta);
+				
+				ItemStack done = new ItemStack(Material.EMERALD);
+				ItemMeta doneMeta = done.getItemMeta();
+				doneMeta.setDisplayName(ChatColor.GREEN + "Click to confirm");
+				done.setItemMeta(doneMeta);
+				
+				ItemStack result = new ItemStack(Material.BLACK_WOOL);
+				ItemMeta resultMeta = result.getItemMeta();
+				ArrayList<String> resultLore = new ArrayList<String>();
+				resultMeta.setDisplayName(ChatColor.BLUE + "Insert an item in the top slot");
+				resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+				resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				resultLore.add(ChatColor.BLUE + "and an item in te bottom slot!");
+				resultMeta.setLore(resultLore);
+				result.setItemMeta(resultMeta);
+				
+				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
+				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
+				
+				ItemStack fast = new ItemStack(Material.LIME_DYE);
+				ItemMeta fastMeta = fast.getItemMeta();
+				fastMeta.setDisplayName(ChatColor.GOLD + "§lFast decompressor");
+				ArrayList<String> fastLore = new ArrayList<String>();
+				fastLore.add(ChatColor.GREEN + "Fast decompressor is enabled");
+				fastLore.add(" ");
+				fastLore.add(ChatColor.BLUE + "Click to toggle");
+				fastMeta.setLore(fastLore);
+				fast.setItemMeta(fastMeta);
+				
+				config.set(p.getName().toLowerCase(), false);
+				try { config.save(customYml); } catch (IOException ex) { ex.printStackTrace(); }
+				
+				Inventory compressor = Bukkit.createInventory(null, 54, e.getView().getTitle());
+	        	
+	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
+				compressor.setItem(12, new ItemStack(Material.AIR));
+				compressor.setItem(21, hopper);
+				compressor.setItem(30, new ItemStack(Material.AIR));
+				compressor.setItem(14, result);
+				compressor.setItem(32, done);
+				compressor.setItem(48, fast);
+				compressor.setItem(50, Close);
+				p.openInventory(compressor);
+			} else if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+				
+				e.getClickedInventory().setItem(12, new ItemStack(Material.AIR));
+				e.getClickedInventory().setItem(30, new ItemStack(Material.AIR));
+				p.closeInventory();
+				
+				p.getInventory().addItem(e.getInventory().getItem(14));
+				
 			}
 		}
 	}
