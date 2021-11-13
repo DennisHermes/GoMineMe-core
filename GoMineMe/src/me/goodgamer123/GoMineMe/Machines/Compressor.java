@@ -106,10 +106,10 @@ public class Compressor implements Listener {
 				fastMeta.setLore(fastLore);
 				fast.setItemMeta(fastMeta);
 				
-	        	Inventory compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor");
+	        	Inventory compressor = Bukkit.createInventory(null, 36, ChatColor.GREEN + "§lCompressor");
 	        	
-	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -151, 226, 4))) compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 1");
-	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.BLUE + "§lCompressor 2");
+	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -151, 226, 4))) compressor = Bukkit.createInventory(null, 36, ChatColor.GREEN + "§lCompressor 1");
+	        	else compressor = Bukkit.createInventory(null, 36, ChatColor.GREEN + "§lCompressor 2");
 	        	
 	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(10, Stone);
@@ -125,23 +125,23 @@ public class Compressor implements Listener {
 	    }
 	}
 	
-	Location loc = new Location(Bukkit.getWorlds().get(0), 0.0, 0.0, 0.0);
-	int a = 0;
+	Location loc = null;
+	int amount = 0;
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
 		Player p = (Player) e.getWhoClicked();
 		
-		if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lCompressor")) {
+		if (e.getView().getTitle().startsWith(ChatColor.GREEN + "§lCompressor")) {
+			if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
+			
 			e.setCancelled(true);
 			p.updateInventory();
 			
 			if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
 				p.closeInventory();
-			}
-			
-			if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
+			} else if (e.getCurrentItem().getType().equals(Material.LIME_DYE)) {
 				ItemStack Stone = new ItemStack(Material.STONE);
 				ItemMeta StoneMeta = Stone.getItemMeta();
 				StoneMeta.setDisplayName(ChatColor.BLUE +  "Click to compress stone");
@@ -210,9 +210,7 @@ public class Compressor implements Listener {
 				compressor.setItem(30, fast);
 				compressor.setItem(32, Close);
 				p.openInventory(compressor);
-			}
-			
-			if (e.getCurrentItem().getType().equals(Material.RED_DYE)) {
+			} else if (e.getCurrentItem().getType().equals(Material.RED_DYE)) {
 				ItemStack Stone = new ItemStack(Material.STONE);
 				ItemMeta StoneMeta = Stone.getItemMeta();
 				StoneMeta.setDisplayName(ChatColor.BLUE +  "Click to compress stone");
@@ -281,379 +279,68 @@ public class Compressor implements Listener {
 				compressor.setItem(30, fast);
 				compressor.setItem(32, Close);
 				p.openInventory(compressor);
-			}
-			
-			if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress stone")) {
+			} else if (e.getCurrentItem().getItemMeta().getDisplayName().startsWith(ChatColor.BLUE +  "Click to compress ")) {
+				
+				if (!p.getInventory().containsAtLeast(new ItemStack(e.getCurrentItem().getType()), 64)) {
+					p.sendMessage(ChatColor.RED + "You don't have 64 " + e.getCurrentItem().getType().toString().replace("_BLOCK", "").toLowerCase() + " blocks to compress!");
+					return;
+				}
+				
+				p.closeInventory();
 				
 				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
 				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
 				
-				a = 0;
+				if (e.getView().getTitle().contains("1")) loc = new Location(p.getWorld(), -151, 226, 4);
+				else loc = new Location(p.getWorld(), -151, 226, -3);
+				
 				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.STONE) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
+					for (int i = 0; i < p.getInventory().getSize(); i++) {
+						if (p.getInventory().getItem(i) != null) {
+							if (p.getInventory().getItem(i).getType().equals(e.getCurrentItem().getType()) && p.getInventory().getItem(i).getAmount() == 64) {
+								amount = amount + 1;
+								p.getInventory().setItem(i, new ItemStack(Material.AIR));
+							}
+						}
 					}
-					a = (int) Math.floor(a / 64);
 				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.STONE) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 stone to compress!");
-						return;
+					for (int i = 0; i < p.getInventory().getSize(); i++) {
+						if (p.getInventory().getItem(i) != null) {
+							if (p.getInventory().getItem(i).getType().equals(e.getCurrentItem().getType()) && p.getInventory().getItem(i).getAmount() == 64) {
+								p.getInventory().setItem(i, new ItemStack(Material.AIR));
+								amount = 1;
+								break;
+							}
+						}
 					}
 				}
 				
-				ItemStack Stone = new ItemStack(Material.STONE);
-				Stone.setAmount(a * 64);
-				ItemMeta StoneMeta = Stone.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Stone.setItemMeta(StoneMeta);
+				ItemStack item = new ItemStack(e.getCurrentItem().getType());
+				item.setAmount(64);
 				
-				if (consumeItem(p, a * 64, Material.STONE)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
+				p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), item);
+				
+				new BukkitRunnable() { 
+					@Override
+					public void run() {
+						loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
 					}
-					
-					p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), Stone);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedStone());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 stone to compress!");
-				}
-				
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress coal")) {
-				
-				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-				
-				a = 0;
-				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.COAL_BLOCK) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
+				}.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
+				new BukkitRunnable() { 
+					@Override
+					public void run() {
+						ItemStack newItem = new ItemStack(Material.STONE);
+						if (e.getCurrentItem().getType().equals(Material.STONE)) newItem = Compressed.compressedStone();
+						else if (e.getCurrentItem().getType().equals(Material.COAL_BLOCK)) newItem = Compressed.compressedCoal();
+						else if (e.getCurrentItem().getType().equals(Material.IRON_BLOCK)) newItem = Compressed.compressedIron();
+						else if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) newItem = Compressed.compressedGold();
+						else if (e.getCurrentItem().getType().equals(Material.DIAMOND_BLOCK)) newItem = Compressed.compressedDiamond();
+						else if (e.getCurrentItem().getType().equals(Material.EMERALD_BLOCK)) newItem = Compressed.compressedEmerald();
+						if (config.getBoolean(p.getName().toLowerCase())) newItem.setAmount(amount);
+						p.getInventory().addItem(newItem);
 					}
-					a = (int) Math.floor(a / 64);
-				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.COAL_BLOCK) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 coal blocks to compress!");
-						return;
-					}
-				}
-				
-				ItemStack Coal = new ItemStack(Material.COAL_BLOCK);
-				Coal.setAmount(a * 64);
-				ItemMeta StoneMeta = Coal.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Coal.setItemMeta(StoneMeta);
-				
-				if (consumeItem(p, a * 64, Material.COAL_BLOCK)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
-					}
-					
-					p.getInventory().remove(Coal);
-					p.getWorld().dropItemNaturally((loc.add(-2, 0, 1)), Coal);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedCoal());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 coal blocks to compress!");
-				}
-				
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress iron")) {
-				
-				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-				
-				a = 0;
-				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.IRON_BLOCK) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					a = (int) Math.floor(a / 64);
-				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.IRON_BLOCK) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 iron blocks to compress!");
-						return;
-					}
-				}
-				
-				ItemStack Iron = new ItemStack(Material.IRON_BLOCK);
-				Iron.setAmount(a * 64);
-				ItemMeta StoneMeta = Iron.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Iron.setItemMeta(StoneMeta);
-				
-				if (consumeItem(p, a * 64, Material.IRON_BLOCK)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
-					}
-					
-					p.getInventory().remove(Iron);
-					p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), Iron);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedIron());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 iron blocks to compress!");
-				}
-				
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress gold")) {
-				
-				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-				
-				a = 0;
-				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.GOLD_BLOCK) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					a = (int) Math.floor(a / 64);
-				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.GOLD_BLOCK) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 gold blocks to compress!");
-						return;
-					}
-				}
-				
-				ItemStack Gold = new ItemStack(Material.GOLD_BLOCK);
-				Gold.setAmount(a * 64);
-				ItemMeta StoneMeta = Gold.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Gold.setItemMeta(StoneMeta);
-				
-				if (consumeItem(p, a * 64, Material.GOLD_BLOCK)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
-					}
-					
-					p.getInventory().remove(Gold);
-					p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), Gold);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedGold());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 gold blocks to compress!");
-				}
-				
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress diamond")) {
-				
-				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-				
-				a = 0;
-				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.DIAMOND_BLOCK) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					a = (int) Math.floor(a / 64);
-				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.DIAMOND_BLOCK) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 diamond blocks to compress!");
-						return;
-					}
-				}
-				
-				ItemStack Diamond = new ItemStack(Material.DIAMOND_BLOCK);
-				Diamond.setAmount(a * 64);
-				ItemMeta StoneMeta = Diamond.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Diamond.setItemMeta(StoneMeta);
-				
-				if (consumeItem(p, a * 64, Material.DIAMOND_BLOCK)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
-					}
-					
-					p.getInventory().remove(Diamond);
-					p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), Diamond);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedDiamond());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 diamond blocks to compress!");
-				}
-				
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.BLUE +  "Click to compress emerald")) {
-				
-				File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/FastMachines.yml");
-				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
-				
-				a = 0;
-				if (config.getBoolean(p.getName().toLowerCase())) {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.EMERALD_BLOCK) && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					a = (int) Math.floor(a / 64);
-				} else {
-					for(ItemStack i : p.getInventory().getContents()){
-						if(i != null && i.getType() != Material.AIR)
-							a += i.getType().equals(Material.EMERALD_BLOCK) && !i.getItemMeta().getDisplayName().contains("Compressed") && i.getEnchantments().isEmpty() ? i.getAmount() : 0;
-					}
-					if (a >= 64) {
-						a = 1;
-					} else {
-						p.sendMessage(ChatColor.RED + "You don't have 64 emerald blocks to compress!");
-						return;
-					}
-				}
-				
-				ItemStack Emerald = new ItemStack(Material.EMERALD_BLOCK);
-				Emerald.setAmount(a * 64);
-				ItemMeta StoneMeta = Emerald.getItemMeta();
-				StoneMeta.setDisplayName("");
-				Emerald.setItemMeta(StoneMeta);
-				
-				if (consumeItem(p, a * 64, Material.EMERALD_BLOCK)) {
-					p.closeInventory();
-					
-					if (e.getView().getTitle().contains("1")) {
-						loc = new Location(p.getWorld(), -151, 226, 4);
-					} else {
-						loc = new Location(p.getWorld(), -151, 226, -3);
-					}
-					p.getInventory().remove(Emerald);
-					p.getWorld().dropItemNaturally(loc.add(-2, 0, 1), Emerald);
-					new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							 loc.add(-1, 0, -1).getBlock().setType(Material.REDSTONE_BLOCK);
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 1 * 20);
-					 new BukkitRunnable() { 
-						 @Override
-						 public void run() {
-							p.getInventory().addItem(Compressed.compressedEmerald());
-						 }
-					 }.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
-				} else {
-					p.sendMessage(ChatColor.RED + "You don't have 64 emerald blocks to compress!");
-				}
-				
+				}.runTaskLater(MainClass.getPlugin(MainClass.class), 3 * 20);
 			}
 		}
-		
 	}
-
-	public static boolean consumeItem(Player p, int amount, Material type) {
-		Inventory inventory = p.getInventory();
-        if (amount <= 0) return false;
-        int size = inventory.getSize();
-        for (int slot = 0; slot < size; slot++) {
-            ItemStack is = inventory.getItem(slot);
-            if (is == null) continue;
-            if (type == is.getType() && !is.getItemMeta().getDisplayName().contains("Compressed")) {
-                int newAmount = is.getAmount() - amount;
-                if (newAmount > 0) {
-                    is.setAmount(newAmount);
-                    break;
-                } else {
-                    inventory.clear(slot);
-                    amount = -newAmount;
-                    if (amount == 0) break;
-                }
-            }
-        }
-      return true;
-    }
-	
 }

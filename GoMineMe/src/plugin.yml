@@ -25,8 +25,11 @@ commands:
     permission: chat.broadcast
     aliases: bc
    elevatorcontroller:
-    description: summon a elevatorcontroller.
+    description: summon an elevatorcontroller.
     permission: gomineme.elevatorcontroller
+   explorer:
+    description: summon an explorer.
+    permission: gomineme.explorer
    lab:
     description: teleport to the lab.
    mine:

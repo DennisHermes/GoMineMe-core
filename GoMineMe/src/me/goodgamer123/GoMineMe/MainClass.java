@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.goodgamer123.GoMineMe.Machines.Compressor;
 import me.goodgamer123.GoMineMe.Machines.Decompressor;
 import me.goodgamer123.GoMineMe.Machines.Infuser;
+import me.goodgamer123.GoMineMe.Machines.MachineClose;
 import me.goodgamer123.GoMineMe.Shops.PickaxeShop;
 
 import java.io.File;
@@ -35,14 +36,20 @@ public class MainClass extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new Compressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Decompressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Infuser(), this);
+		Bukkit.getPluginManager().registerEvents(new MachineClose(), this);
+		
 		Bukkit.getPluginManager().registerEvents(new Chat(), this);
+		
 		Bukkit.getPluginManager().registerEvents(new Elevator(), this);
+		Bukkit.getPluginManager().registerEvents(new Tutorial(), this);
+		
 		Bukkit.getPluginManager().registerEvents(new Start(), this);
 		Bukkit.getPluginManager().registerEvents(new PickaxeShop(), this);
 		
 		getCommand("clearchat").setExecutor(new Chat());
 		getCommand("togglechat").setExecutor(new Chat());
 		getCommand("elevatorcontroller").setExecutor(new Elevator());
+		getCommand("explorer").setExecutor(new Tutorial());
 		getCommand("broadcast").setExecutor(new Chat());
 		getCommand("start").setExecutor(new Start());
 		
@@ -201,9 +208,10 @@ public class MainClass extends JavaPlugin {
 			Player p = (Player) sender;
 			if (p.getEquipment().getItemInMainHand().getType() != Material.AIR) {
 				String message = "";
-	    		for(int i = 1; i < args.length; i++) {
+	    		for(int i = 0; i < args.length; i++) {
 	    			message = message + args[i] + " ";
 	    		}
+	    		message = ChatColor.WHITE + message;
 	    		ItemStack item = p.getEquipment().getItemInMainHand();
 	    		ItemMeta itemMeta = item.getItemMeta();
 	    		itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', message));

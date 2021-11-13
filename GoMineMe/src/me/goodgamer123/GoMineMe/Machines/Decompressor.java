@@ -100,11 +100,12 @@ public class Decompressor implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
-		if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
-		if (e.getSlot() == 13) return;
-		Player p = (Player) e.getWhoClicked();
 		
 		if (e.getView().getTitle().startsWith(ChatColor.BLUE + "§lDecompressor")) {
+			if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
+			if (e.getSlot() == 13) return;
+			Player p = (Player) e.getWhoClicked();
+			
 			e.setCancelled(true);
 			p.updateInventory();
 			
@@ -193,27 +194,27 @@ public class Decompressor implements Listener {
 				compressor.setItem(30, Close);
 				compressor.setItem(32, done);
 				p.openInventory(compressor);
-			}
-			
-			Location BlockLoc;
-			Location Red1;
-			Location Red2;
-			
-			if (e.getView().getTitle().contains("1")) {
-				BlockLoc = new Location(p.getWorld(), -142, 226, -10);
-				Red1 = new Location(p.getWorld(), -141, 229, -10);
-				Red2 = new Location(p.getWorld(), -142, 223, -10);
-			} else if (e.getView().getTitle().contains("2")) {
-				BlockLoc = new Location(p.getWorld(), -142, 226, 9);
-				Red1 = new Location(p.getWorld(), -142, 223, 9);
-				Red2 = new Location(p.getWorld(), -141, 229, 9);
-			} else {
-				BlockLoc = new Location(p.getWorld(), -142, 226, 15);
-				Red1 = new Location(p.getWorld(), -141, 229, 15);
-				Red2 = new Location(p.getWorld(), -142, 223, 15);
-			}
-			
-			if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+			} else if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+				if (e.getInventory().getItem(13) == null) return;
+				
+				Location BlockLoc;
+				Location Red1;
+				Location Red2;
+				
+				if (e.getView().getTitle().contains("1")) {
+					BlockLoc = new Location(p.getWorld(), -142, 226, -10);
+					Red1 = new Location(p.getWorld(), -141, 229, -10);
+					Red2 = new Location(p.getWorld(), -142, 223, -10);
+				} else if (e.getView().getTitle().contains("2")) {
+					BlockLoc = new Location(p.getWorld(), -142, 226, 9);
+					Red1 = new Location(p.getWorld(), -142, 223, 9);
+					Red2 = new Location(p.getWorld(), -141, 229, 9);
+				} else {
+					BlockLoc = new Location(p.getWorld(), -142, 226, 15);
+					Red1 = new Location(p.getWorld(), -141, 229, 15);
+					Red2 = new Location(p.getWorld(), -142, 223, 15);
+				}
+				
 				ItemStack item = e.getInventory().getItem(13);
 				int itemAmount = item.getAmount();
 				item.setAmount(1);
@@ -224,7 +225,7 @@ public class Decompressor implements Listener {
 				FileConfiguration config = YamlConfiguration.loadConfiguration(customYml);
 				if (itemAmount > 1) {
 					if (!config.getBoolean(p.getName().toLowerCase())) {
-						item.setAmount(item.getAmount() - 1);
+						item.setAmount(itemAmount - 1);
 						p.getInventory().addItem(item);
 					}
 				}
@@ -248,7 +249,8 @@ public class Decompressor implements Listener {
 					@Override
 					public void run() {
 						ItemStack itemBack = new ItemStack(item.getType());
-						itemBack.setAmount(itemAmount * 64);
+						if (!config.getBoolean(p.getName().toLowerCase())) itemBack.setAmount(64);
+						else itemBack.setAmount(itemAmount * 64);
 						p.getInventory().addItem(itemBack);
 					 }
 				}.runTaskLater(MainClass.getPlugin(MainClass.class), 40);

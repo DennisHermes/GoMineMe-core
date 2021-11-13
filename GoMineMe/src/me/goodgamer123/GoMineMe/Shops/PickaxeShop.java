@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -36,14 +38,13 @@ public class PickaxeShop implements Listener {
 	    		        ItemStack prePick = null;
 	    		        ItemStack nextPick = null;
 	    		        
-	    		        ItemStack upgrade = new ItemStack(Material.FIREWORK_ROCKET);
+	    		        ItemStack upgrade = new ItemStack(Material.EMERALD);
     		        	ItemMeta upgradeMeta = upgrade.getItemMeta();
     		        	upgradeMeta.setDisplayName(ChatColor.GREEN + "Click to upgrade");
     		        	ArrayList<String> upgradeLore = new ArrayList<String>();
     		        	upgradeLore.add(" ");
     		        	upgradeLore.add(ChatColor.BLUE + "§lCost:");
-    		        	upgradeLore.add(" ");
-	    		        
+    		        	
 	    		        if (e.getPlayer().getEquipment().getItemInMainHand().getItemMeta().getDisplayName().contains("Starter pickaxe")) {
 	    		        	ItemStack bedrock = new ItemStack(Material.BEDROCK);
 	    		        	ItemMeta bedrockMeta = bedrock.getItemMeta();
@@ -51,6 +52,7 @@ public class PickaxeShop implements Listener {
 	    		        	bedrock.setItemMeta(bedrockMeta);
 	    		        	prePick = bedrock;
 	    		        	nextPick = pickaxe(1);
+	    		        	upgradeLore.addAll(upgradeNeed(1));
 	    		        } else if (ChatColor.stripColor(e.getPlayer().getEquipment().getItemInMainHand().getItemMeta().getDisplayName().replace("Pickaxe tier ", "")).equals("1")) {
 	    		        	prePick = pickaxe(0);
 	    		        	nextPick = pickaxe(2);
@@ -321,121 +323,179 @@ public class PickaxeShop implements Listener {
 	ItemStack pickaxe(int tier) {
 		ItemStack pickaxe = new ItemStack(Material.WOODEN_PICKAXE);
 		ItemMeta pickaxeMeta = pickaxe.getItemMeta();
-		if (tier == 2) {
+		pickaxeMeta.setDisplayName(ChatColor.BLUE + "Pickaxe tier " + tier);
+	    pickaxeMeta.setUnbreakable(true);
+	    pickaxeMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+	    pickaxeMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		if (tier == 1) {
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+		} else if (tier == 2) {
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
 		} else if (tier == 3) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
 		} else if (tier == 4) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
 		} else if (tier == 5) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 6) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 7) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
 		} else if (tier == 8) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 2, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 9) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 3, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 10) {
-			
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 4, true);
+			pickaxeMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 2, true);
 		} else if (tier == 11) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
 		} else if (tier == 12) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 13) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 14) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 15) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 16) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 17) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 18) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 19) {
-			
+			pickaxe.setType(Material.STONE_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 20) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
 		} else if (tier == 21) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 22) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 23) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 24) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 25) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 26) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 27) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 28) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 29) {
-			
+			pickaxe.setType(Material.IRON_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 30) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
 		} else if (tier == 31) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 32) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 33) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 34) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 35) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 36) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 37) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 38) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 39) {
-			
+			pickaxe.setType(Material.GOLDEN_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 40) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
 		} else if (tier == 41) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 42) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 43) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 44) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 45) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 46) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 47) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 48) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 49) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 50) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 51) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 52) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 53) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 54) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 55) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 56) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 57) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 58) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		} else if (tier == 59) {
-			
+			pickaxe.setType(Material.DIAMOND_PICKAXE);
+			pickaxeMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
 		}
 		pickaxe.setItemMeta(pickaxeMeta);
 		return pickaxe;
@@ -443,10 +503,12 @@ public class PickaxeShop implements Listener {
 	
 	ArrayList<String> upgradeNeed(int tier) {
 		ArrayList<String> list = new ArrayList<String>();
-		if (tier == 2) {
+		if (tier == 1) {
 			list.add(ChatColor.GRAY + "• 16x Stone");
-		} else if (tier == 3) {
+		} else if (tier == 2) {
 			list.add(ChatColor.GRAY + "• 32x Stone");
+		} else if (tier == 3) {
+			list.add(ChatColor.GRAY + "• 48x Stone");
 		} else if (tier == 4) {
 			list.add(ChatColor.GRAY + "• 64x Stone");
 		} else if (tier == 5) {
