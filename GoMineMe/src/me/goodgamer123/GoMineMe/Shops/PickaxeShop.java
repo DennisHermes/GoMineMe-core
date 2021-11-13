@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.goodgamer123.GoMineMe.MainClass;
+import me.goodgamer123.GoMineMe.CustomItems.Compressed;
 
 public class PickaxeShop implements Listener {
 
@@ -336,14 +337,87 @@ public class PickaxeShop implements Listener {
 			if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
 				if (e.getInventory().getItem(31) != null) {
 					
-					String cost = e.getCurrentItem().getItemMeta().getLore().get(3);
+					String cost = e.getCurrentItem().getItemMeta().getLore().get(2);
+					
+					boolean valid = false;
 					
 					Material type = Material.STONE;
-					boolean compressed = false;
-					boolean infused = false;
 					
-					p.closeInventory();
-					p.getEquipment().setItemInMainHand(e.getClickedInventory().getItem(15));
+					String typeString = cost.substring(cost.lastIndexOf(" ") + 1);
+					if (typeString.equals("block")) {
+						if (cost.contains("Coal")) {
+							ItemStack item = new ItemStack(Material.COAL_BLOCK);
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (cost.contains("Iron")) {
+							ItemStack item = new ItemStack(Material.IRON_BLOCK);
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (cost.contains("Gold")) {
+							ItemStack item = new ItemStack(Material.GOLD_BLOCK);
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (cost.contains("Diamond")) {
+							ItemStack item = new ItemStack(Material.DIAMOND_BLOCK);
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (cost.contains("Emerald")) {
+							ItemStack item = new ItemStack(Material.EMERALD_BLOCK);
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						}
+					} else {
+						if (typeString.equalsIgnoreCase("stone")) {
+							if (cost.contains("Compressed") || cost.contains("infused")) {
+								type = Material.STONE;
+							} else {
+								ItemStack item = new ItemStack(Material.STONE);
+								item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+								if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+							}
+						} 
+						else if (typeString.equalsIgnoreCase("coal")) type = Material.COAL_BLOCK;
+						else if (typeString.equalsIgnoreCase("iron")) type = Material.IRON_BLOCK;
+						else if (typeString.equalsIgnoreCase("gold")) type = Material.GOLD_BLOCK;
+						else if (typeString.equalsIgnoreCase("diamond")) type = Material.DIAMOND_BLOCK;
+						else if (typeString.equalsIgnoreCase("emerald")) type = Material.EMERALD_BLOCK;
+					}
+					
+					if (cost.contains("Compressed")) {
+						if (type.equals(Material.STONE)) {
+							ItemStack item = Compressed.compressedStone();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.COAL)) {
+							ItemStack item = Compressed.compressedCoal();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.IRON_BLOCK)) {
+							ItemStack item = Compressed.compressedStone();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.GOLD_BLOCK)) {
+							ItemStack item = Compressed.compressedStone();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.DIAMOND_BLOCK)) {
+							ItemStack item = Compressed.compressedStone();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.EMERALD_BLOCK)) {
+							ItemStack item = Compressed.compressedStone();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						}
+					}
+					
+					if (valid) {
+						e.getClickedInventory().setItem(31, new ItemStack(Material.AIR));
+						p.closeInventory();
+						p.getEquipment().setItemInMainHand(e.getClickedInventory().getItem(15));
+					} else {
+						p.sendMessage(MainClass.prefix + ChatColor.RED + "The items are not the correct items to upgrade!");
+					}
 				} else {
 					p.sendMessage(MainClass.prefix + ChatColor.RED + "You need to put the requested items in the slot above the emerald!");
 				}
