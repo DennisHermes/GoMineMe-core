@@ -367,7 +367,7 @@ public class PickaxeShop implements Listener {
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						}
 					} else {
-						if (typeString.equalsIgnoreCase("stone")) {
+						if (typeString.equalsIgnoreCase("Stone")) {
 							if (cost.contains("Compressed") || cost.contains("infused")) {
 								type = Material.STONE;
 							} else {
