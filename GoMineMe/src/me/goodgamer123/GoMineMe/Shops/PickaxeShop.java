@@ -25,7 +25,7 @@ public class PickaxeShop implements Listener {
 
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
-	    if(e.getRightClicked() instanceof Villager) {
+	    if (e.getRightClicked() instanceof Villager) {
 	    	if (e.getRightClicked().getCustomName().contains("Pickaxe Upgrade")) {
 	    		if (e.getPlayer().getEquipment().getItemInMainHand() != null) {
 	    			if (e.getPlayer().getEquipment().getItemInMainHand().getType().toString().contains("PICKAXE")) {

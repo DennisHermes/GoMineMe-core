@@ -14,6 +14,7 @@ import org.bukkit.scoreboard.Team;
 import me.goodgamer123.GoMineMe.Machines.Compressor;
 import me.goodgamer123.GoMineMe.Machines.Decompressor;
 import me.goodgamer123.GoMineMe.Machines.Infuser;
+import me.goodgamer123.GoMineMe.Shops.CombatShop;
 import me.goodgamer123.GoMineMe.Shops.PickaxeShop;
 
 import java.io.File;
@@ -55,6 +56,7 @@ public class MainClass extends JavaPlugin {
 		
 		Bukkit.getPluginManager().registerEvents(new Start(), this);
 		Bukkit.getPluginManager().registerEvents(new PickaxeShop(), this);
+		Bukkit.getPluginManager().registerEvents(new CombatShop(), this);
 		
 		getCommand("glow").setExecutor(new Glow());
 		

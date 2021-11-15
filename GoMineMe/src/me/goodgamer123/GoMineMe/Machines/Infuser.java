@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.goodgamer123.GoMineMe.MainClass;
 import me.goodgamer123.GoMineMe.CustomItems.Compressed;
@@ -117,65 +118,84 @@ public class Infuser implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getCurrentItem() == null) return;
 		Player p = (Player) e.getWhoClicked();
 		
 		if (e.getView().getTitle().startsWith(ChatColor.DARK_PURPLE + "§lInfuser")) {
-			if (e.getView().getBottomInventory() == e.getClickedInventory()) return;
-			if (e.getSlot() == 12 || e.getSlot() == 30) return;
 			
+			new BukkitRunnable() { 
+				@Override
+				public void run() {
+					if (e.getInventory().getItem(12) != null && e.getInventory().getItem(30) != null) {
+						ItemStack itemInfusing = e.getInventory().getItem(12);
+						ItemStack infusedItem = e.getInventory().getItem(30);
+						
+						itemInfusing.setAmount(1);
+						infusedItem.setAmount(1);
+						
+						String resultName = "";
+						ItemStack result = new ItemStack(Material.STONE);
+								
+						if (itemInfusing.equals(Compressed.compressedStone())) resultName = ChatColor.GRAY + "§lStone infused ";
+						else if (itemInfusing.equals(Compressed.compressedCoal())) resultName = ChatColor.DARK_GRAY + "§lCoal infused ";
+						else if (itemInfusing.equals(Compressed.compressedIron())) resultName = ChatColor.WHITE + "§lIron infused ";
+						else if (itemInfusing.equals(Compressed.compressedGold())) resultName = ChatColor.GOLD + "§lGold infused ";
+						else if (itemInfusing.equals(Compressed.compressedDiamond())) resultName = ChatColor.AQUA + "§lDiamond infused ";
+						else if (itemInfusing.equals(Compressed.compressedEmerald())) resultName = ChatColor.GREEN + "§lEmerald infused ";
+						
+						if (infusedItem.equals(Compressed.compressedStone())) {
+							resultName = resultName + "stone";
+						}
+						else if (infusedItem.equals(Compressed.compressedCoal())) {
+							resultName = resultName + "coal";
+							result.setType(Material.COAL_BLOCK);
+						}
+						else if (infusedItem.equals(Compressed.compressedIron())) {
+							resultName = resultName + "iron";
+							result.setType(Material.IRON_BLOCK);
+						}
+						else if (infusedItem.equals(Compressed.compressedGold())) {
+							resultName = resultName + "gold";
+							result.setType(Material.GOLD_BLOCK);
+						}
+						else if (infusedItem.equals(Compressed.compressedDiamond())) {
+							resultName = resultName + "diamond";
+							result.setType(Material.DIAMOND_BLOCK);
+						}
+						else if (infusedItem.equals(Compressed.compressedEmerald())) {
+							resultName = resultName + "emerald";
+							result.setType(Material.EMERALD_BLOCK);
+						}
+						
+						ItemMeta resultMeta = result.getItemMeta();
+						resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+						resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+						resultMeta.setDisplayName(resultName);
+						result.setItemMeta(resultMeta);
+						
+						e.getInventory().setItem(14, result);
+					} else {
+						ItemStack result = new ItemStack(Material.BLACK_WOOL);
+						ItemMeta resultMeta = result.getItemMeta();
+						ArrayList<String> resultLore = new ArrayList<String>();
+						resultMeta.setDisplayName(ChatColor.BLUE + "Insert an item in the top slot");
+						resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+						resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+						resultLore.add(ChatColor.BLUE + "and an item in te bottom slot!");
+						resultMeta.setLore(resultLore);
+						result.setItemMeta(resultMeta);
+						
+						e.getInventory().setItem(14, result);
+					}
+				}
+			}.runTaskLater(MainClass.getPlugin(MainClass.class), 1);
+			
+
+			if (e.getCurrentItem() == null) return;
+			if (e.getSlot() == 12 || e.getSlot() == 30) return;
+			if (e.getView().getBottomInventory() == e.getClickedInventory()) return;
+
 			e.setCancelled(true);
 			p.updateInventory();
-			
-			if (e.getInventory().getItem(12) != null && e.getInventory().getItem(30) != null) {
-				ItemStack itemInfusing = e.getInventory().getItem(12);
-				ItemStack infusedItem = e.getInventory().getItem(30);
-				
-				itemInfusing.setAmount(1);
-				infusedItem.setAmount(1);
-				
-				String resultName = "";
-				ItemStack result = new ItemStack(Material.STONE);
-						
-				if (itemInfusing.equals(Compressed.compressedStone())) resultName = ChatColor.GRAY + "§lStone infused ";
-				else if (itemInfusing.equals(Compressed.compressedCoal())) resultName = ChatColor.DARK_GRAY + "§lCoal infused ";
-				else if (itemInfusing.equals(Compressed.compressedIron())) resultName = ChatColor.WHITE + "§lIron infused ";
-				else if (itemInfusing.equals(Compressed.compressedGold())) resultName = ChatColor.GOLD + "§lGold infused ";
-				else if (itemInfusing.equals(Compressed.compressedDiamond())) resultName = ChatColor.AQUA + "§lDiamond infused ";
-				else if (itemInfusing.equals(Compressed.compressedEmerald())) resultName = ChatColor.GREEN + "§lEmerald infused ";
-				
-				if (infusedItem.equals(Compressed.compressedStone())) {
-					resultName = resultName + "stone";
-				}
-				else if (infusedItem.equals(Compressed.compressedCoal())) {
-					resultName = resultName + "coal";
-					result.setType(Material.COAL_BLOCK);
-				}
-				else if (infusedItem.equals(Compressed.compressedIron())) {
-					resultName = resultName + "iron";
-					result.setType(Material.IRON_BLOCK);
-				}
-				else if (infusedItem.equals(Compressed.compressedGold())) {
-					resultName = resultName + "gold";
-					result.setType(Material.GOLD_BLOCK);
-				}
-				else if (infusedItem.equals(Compressed.compressedDiamond())) {
-					resultName = resultName + "diamond";
-					result.setType(Material.DIAMOND_BLOCK);
-				}
-				else if (infusedItem.equals(Compressed.compressedEmerald())) {
-					resultName = resultName + "emerald";
-					result.setType(Material.EMERALD_BLOCK);
-				}
-				
-				ItemMeta resultMeta = result.getItemMeta();
-				resultMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-				resultMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-				resultMeta.setDisplayName(resultName);
-				result.setItemMeta(resultMeta);
-				
-				e.getInventory().setItem(14, result);
-			}
 				
 			if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
 				p.closeInventory();
