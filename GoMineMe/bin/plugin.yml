@@ -47,3 +47,6 @@ commands:
    rename:
     description: change an items name.
     permission: gomineme.rename
+   glow:
+    description: give yourself a glow.
+    permission: gomineme.glow

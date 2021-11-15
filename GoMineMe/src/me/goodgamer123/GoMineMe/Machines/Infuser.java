@@ -72,7 +72,7 @@ public class Infuser implements Listener {
 				
 				if (!p.hasPermission("machines.fast")) {
 					fast = new ItemStack(Material.ORANGE_DYE);
-					fastLore.add(ChatColor.BLUE + "Buy " + ChatColor.GOLD + "§lV" + ChatColor.YELLOW + "§lI" + ChatColor.GOLD + "§lP" + ChatColor.BLUE + " to get access to ");
+					fastLore.add(ChatColor.BLUE + "Buy " + ChatColor.WHITE + "§lIron" + ChatColor.BLUE + " or higher to get access to ");
 					fastLore.add(ChatColor.BLUE + "this and other unique functions!");
 				} else if ((config.get(p.getName().toLowerCase()) == null)) {
 					fast = new ItemStack(Material.LIME_DYE);
@@ -137,12 +137,12 @@ public class Infuser implements Listener {
 				String resultName = "";
 				ItemStack result = new ItemStack(Material.STONE);
 						
-				if (itemInfusing.equals(Compressed.compressedStone())) resultName = ChatColor.GRAY + "§lStone infussed ";
-				else if (itemInfusing.equals(Compressed.compressedCoal())) resultName = ChatColor.BLACK + "§lCoal infussed ";
-				else if (itemInfusing.equals(Compressed.compressedIron())) resultName = ChatColor.WHITE + "§lIron infussed ";
-				else if (itemInfusing.equals(Compressed.compressedGold())) resultName = ChatColor.GOLD + "§lGold infussed ";
-				else if (itemInfusing.equals(Compressed.compressedDiamond())) resultName = ChatColor.AQUA + "§lDiamond infussed ";
-				else if (itemInfusing.equals(Compressed.compressedEmerald())) resultName = ChatColor.GREEN + "§lEmerald infussed ";
+				if (itemInfusing.equals(Compressed.compressedStone())) resultName = ChatColor.GRAY + "§lStone infused ";
+				else if (itemInfusing.equals(Compressed.compressedCoal())) resultName = ChatColor.DARK_GRAY + "§lCoal infused ";
+				else if (itemInfusing.equals(Compressed.compressedIron())) resultName = ChatColor.WHITE + "§lIron infused ";
+				else if (itemInfusing.equals(Compressed.compressedGold())) resultName = ChatColor.GOLD + "§lGold infused ";
+				else if (itemInfusing.equals(Compressed.compressedDiamond())) resultName = ChatColor.AQUA + "§lDiamond infused ";
+				else if (itemInfusing.equals(Compressed.compressedEmerald())) resultName = ChatColor.GREEN + "§lEmerald infused ";
 				
 				if (infusedItem.equals(Compressed.compressedStone())) {
 					resultName = resultName + "stone";

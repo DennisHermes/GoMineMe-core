@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import me.goodgamer123.GoMineMe.Machines.Compressor;
 import me.goodgamer123.GoMineMe.Machines.Decompressor;
@@ -32,6 +34,11 @@ public class MainClass extends JavaPlugin {
 	
 	public void onEnable() {
 		
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Team team = board.registerNewTeam("redTeam");
+		team.setColor(ChatColor.RED);
+		team.setPrefix(ChatColor.RED + "");
+		
 		Bukkit.getPluginManager().registerEvents(new Compressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Decompressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Infuser(), this);
@@ -44,14 +51,21 @@ public class MainClass extends JavaPlugin {
 		
 		Bukkit.getPluginManager().registerEvents(new AutoPickup(), this);
 		
+		Bukkit.getPluginManager().registerEvents(new Glow(), this);
+		
 		Bukkit.getPluginManager().registerEvents(new Start(), this);
 		Bukkit.getPluginManager().registerEvents(new PickaxeShop(), this);
 		
+		getCommand("glow").setExecutor(new Glow());
+		
 		getCommand("clearchat").setExecutor(new Chat());
 		getCommand("togglechat").setExecutor(new Chat());
-		getCommand("elevatorcontroller").setExecutor(new Elevator());
-		getCommand("explorer").setExecutor(new Tutorial());
 		getCommand("broadcast").setExecutor(new Chat());
+		
+		getCommand("elevatorcontroller").setExecutor(new Elevator());
+		
+		getCommand("explorer").setExecutor(new Tutorial());
+		
 		getCommand("start").setExecutor(new Start());
 		
 		File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/Elevator.yml");
@@ -96,6 +110,11 @@ public class MainClass extends JavaPlugin {
 			getServer().getPluginManager().disablePlugin(this);
 		}
 		
+	}
+	
+	public void onDisable() {
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		board.getTeam("redTeam").unregister();
 	}
   
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

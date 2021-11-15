@@ -82,7 +82,7 @@ public class Compressor implements Listener {
 				
 				if (!p.hasPermission("machines.fast")) {
 					fast = new ItemStack(Material.ORANGE_DYE);
-					fastLore.add(ChatColor.BLUE + "Buy " + ChatColor.GOLD + "§lV" + ChatColor.YELLOW + "§lI" + ChatColor.GOLD + "§lP" + ChatColor.BLUE + " to get access to ");
+					fastLore.add(ChatColor.BLUE + "Buy " + ChatColor.WHITE + "§lIron" + ChatColor.BLUE + " or higher to get access to ");
 					fastLore.add(ChatColor.BLUE + "this and other unique functions!");
 				} else if ((config.get(p.getName().toLowerCase()) == null)) {
 					fast = new ItemStack(Material.LIME_DYE);

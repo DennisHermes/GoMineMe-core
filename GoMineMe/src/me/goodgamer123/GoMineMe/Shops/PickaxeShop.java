@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.goodgamer123.GoMineMe.MainClass;
+import me.goodgamer123.GoMineMe.CustomItems.BasicInfused;
 import me.goodgamer123.GoMineMe.CustomItems.Compressed;
 
 public class PickaxeShop implements Listener {
@@ -294,7 +295,7 @@ public class PickaxeShop implements Listener {
 	    		        	ItemMeta bedrockMeta = bedrock.getItemMeta();
 	    		        	bedrockMeta.setDisplayName(ChatColor.GREEN + "You made it to the end!");
 	    		        	bedrock.setItemMeta(bedrockMeta);
-	    		        	prePick = bedrock;
+	    		        	nextPick = bedrock;
 	    		        	upgrade = new ItemStack(Material.RED_STAINED_GLASS_PANE);
 	    		        }
 	    		        
@@ -326,8 +327,15 @@ public class PickaxeShop implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() == null) return;
+		if (e.getSlot() == 31) return;
 		
 		if (e.getView().getTitle().equals(ChatColor.BLUE + "§lPickaxe upgrade")) {
+			if (e.getCurrentItem().equals(e.getWhoClicked().getEquipment().getItemInMainHand())) {
+				e.setCancelled(true);
+				((Player) e.getWhoClicked()).updateInventory();
+				return;
+			}
+			
 			if (e.getClickedInventory() == e.getView().getBottomInventory()) return;
 			Player p = (Player) e.getWhoClicked();
 			
@@ -388,24 +396,46 @@ public class PickaxeShop implements Listener {
 							ItemStack item = Compressed.compressedStone();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
-						} else if (type.equals(Material.COAL)) {
+						} else if (type.equals(Material.COAL_BLOCK)) {
 							ItemStack item = Compressed.compressedCoal();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						} else if (type.equals(Material.IRON_BLOCK)) {
-							ItemStack item = Compressed.compressedStone();
+							ItemStack item = Compressed.compressedIron();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						} else if (type.equals(Material.GOLD_BLOCK)) {
-							ItemStack item = Compressed.compressedStone();
+							ItemStack item = Compressed.compressedGold();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						} else if (type.equals(Material.DIAMOND_BLOCK)) {
-							ItemStack item = Compressed.compressedStone();
+							ItemStack item = Compressed.compressedDiamond();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						} else if (type.equals(Material.EMERALD_BLOCK)) {
-							ItemStack item = Compressed.compressedStone();
+							ItemStack item = Compressed.compressedEmerald();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						}
+					} else if (cost.contains("infused")) {
+						if (type.equals(Material.COAL_BLOCK)) {
+							ItemStack item = BasicInfused.StoneInfusedCoal();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.IRON_BLOCK)) {
+							ItemStack item = BasicInfused.CoalInfusedIron();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.GOLD_BLOCK)) {
+							ItemStack item = BasicInfused.IronInfusedGold();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.DIAMOND_BLOCK)) {
+							ItemStack item = BasicInfused.GoldInfusedDiamond();
+							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
+							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
+						} else if (type.equals(Material.EMERALD_BLOCK)) {
+							ItemStack item = BasicInfused.DiamondInfusedEmerald();
 							item.setAmount(Integer.parseInt(ChatColor.stripColor(cost.split(" ")[1].replace("x", ""))));
 							if (item.equals(e.getClickedInventory().getItem(31))) valid = true;
 						}
@@ -663,17 +693,17 @@ public class PickaxeShop implements Listener {
 		} else if (tier == 12) {
 			list.add(ChatColor.GRAY + "• 32x Compressed stone");
 		} else if (tier == 13) {
-			list.add(ChatColor.BLACK + "• 16x Coal block");
+			list.add(ChatColor.DARK_GRAY + "• 16x Coal block");
 		} else if (tier == 14) {
-			list.add(ChatColor.BLACK + "• 32x Coal block");
+			list.add(ChatColor.DARK_GRAY + "• 32x Coal block");
 		} else if (tier == 15) {
-			list.add(ChatColor.BLACK + "• 64x Coal block");
+			list.add(ChatColor.DARK_GRAY + "• 64x Coal block");
 		} else if (tier == 16) {
-			list.add(ChatColor.BLACK + "• 3x Compressed coal");
+			list.add(ChatColor.DARK_GRAY + "• 3x Compressed coal");
 		} else if (tier == 17) {
-			list.add(ChatColor.BLACK + "• 5x Compressed coal");
+			list.add(ChatColor.DARK_GRAY + "• 5x Compressed coal");
 		} else if (tier == 18) {
-			list.add(ChatColor.BLACK + "• 8x Compressed coal");
+			list.add(ChatColor.DARK_GRAY + "• 8x Compressed coal");
 		} else if (tier == 19) {
 			list.add(ChatColor.GRAY + "• 5x Stone infused coal");
 		} else if (tier == 20) {
@@ -695,13 +725,13 @@ public class PickaxeShop implements Listener {
 		} else if (tier == 28) {
 			list.add(ChatColor.WHITE + "• 8x Compressed iron");
 		} else if (tier == 29) {
-			list.add(ChatColor.BLACK + "• 5x Coal infused iron");
+			list.add(ChatColor.DARK_GRAY + "• 5x Coal infused iron");
 		} else if (tier == 30) {
-			list.add(ChatColor.BLACK + "• 8x Coal infused iron");
+			list.add(ChatColor.DARK_GRAY + "• 8x Coal infused iron");
 		} else if (tier == 31) {
-			list.add(ChatColor.BLACK + "• 12x Coal infused iron");
+			list.add(ChatColor.DARK_GRAY + "• 12x Coal infused iron");
 		} else if (tier == 32) {
-			list.add(ChatColor.BLACK + "• 16x Coal infused iron");
+			list.add(ChatColor.DARK_GRAY + "• 16x Coal infused iron");
 		} else if (tier == 33) {
 			list.add(ChatColor.GOLD + "• 16x Gold block");
 		} else if (tier == 34) {
