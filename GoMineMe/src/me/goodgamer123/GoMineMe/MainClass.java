@@ -8,8 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import me.goodgamer123.GoMineMe.Machines.Compressor;
 import me.goodgamer123.GoMineMe.Machines.Decompressor;
@@ -34,12 +32,6 @@ public class MainClass extends JavaPlugin {
 	public static String prefix = ChatColor.BLACK + "[" + ChatColor.GREEN + "GoMineMe" + ChatColor.BLACK + "] ";
 	
 	public void onEnable() {
-		
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Team team = board.registerNewTeam("redTeam");
-		team.setColor(ChatColor.RED);
-		team.setPrefix(ChatColor.RED + "");
-		
 		Bukkit.getPluginManager().registerEvents(new Compressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Decompressor(), this);
 		Bukkit.getPluginManager().registerEvents(new Infuser(), this);
@@ -69,6 +61,15 @@ public class MainClass extends JavaPlugin {
 		getCommand("explorer").setExecutor(new Tutorial());
 		
 		getCommand("start").setExecutor(new Start());
+		
+		getCommand("store").setExecutor(this);
+		getCommand("shop").setExecutor(this);
+		
+		getCommand("lab").setExecutor(this);
+		getCommand("mine").setExecutor(this);
+		
+		getCommand("gomineme").setExecutor(this);
+		getCommand("rename").setExecutor(this);
 		
 		File customYml = new File(MainClass.getPlugin(MainClass.class).getDataFolder()+"/Elevator.yml");
 		if (!customYml.exists()) {
@@ -112,11 +113,6 @@ public class MainClass extends JavaPlugin {
 			getServer().getPluginManager().disablePlugin(this);
 		}
 		
-	}
-	
-	public void onDisable() {
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		board.getTeam("redTeam").unregister();
 	}
   
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -165,6 +161,14 @@ public class MainClass extends JavaPlugin {
 			}
 		}
 
+		if (cmd.getName().equalsIgnoreCase("shop")) {
+			sender.sendMessage(ChatColor.GOLD + "Store" + ChatColor.GRAY + ">>" + ChatColor.WHITE + " baseden.tebex.io");
+		}
+		
+		if (cmd.getName().equalsIgnoreCase("store")) {
+			sender.sendMessage(ChatColor.GOLD + "Store" + ChatColor.GRAY + ">>" + ChatColor.WHITE + " baseden.tebex.io");
+		}
+		
 		if (cmd.getName().equalsIgnoreCase("lab")) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(prefix + ChatColor.RED + "You need to be a player to do this!");

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -101,7 +103,7 @@ public class Infuser implements Listener {
 	        	
 	        	if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -156, 227, 18))) compressor = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + "§lInfuser 1");
 	        	else if (e.getClickedBlock().getLocation().equals(new Location(p.getWorld(), -164, 227, 18))) compressor = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + "§lInfuser 2");
-	        	else compressor = Bukkit.createInventory(null, 54, ChatColor.BLUE + "§lInfuser 3");
+	        	else compressor = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + "§lInfuser 3");
 	        	
 	        	for (int i = 0; i < compressor.getSize(); i++) compressor.setItem(i, Filling);
 				compressor.setItem(12, new ItemStack(Material.AIR));
@@ -316,6 +318,31 @@ public class Infuser implements Listener {
 				compressor.setItem(50, Close);
 				p.openInventory(compressor);
 			} else if (e.getCurrentItem().getType().equals(Material.EMERALD)) {
+				
+				Location block1 = null;
+				Location block2 = null;
+				Location block3 = null;
+				
+				if (e.getView().getTitle().contains("1")) {
+					block1 = new Location(p.getWorld(), -153, 227, 20);
+					block2 = new Location(p.getWorld(), -155, 226, 20);
+					block3 = new Location(p.getWorld(), -154, 226, 20);
+				} else if (e.getView().getTitle().contains("2")) {
+					block1 = new Location(p.getWorld(), -161, 227, 20);
+					block2 = new Location(p.getWorld(), -163, 226, 20);
+					block3 = new Location(p.getWorld(), -162, 226, 20);
+				} else {
+					block1 = new Location(p.getWorld(), -163, 227, 7);
+					block2 = new Location(p.getWorld(), -161, 226, 7);
+					block3 = new Location(p.getWorld(), -162, 226, 7);
+				}
+				
+				for (double i = 0; i < 1; i = i + 0.1) {
+					block3.getWorld().spawnParticle(Particle.REDSTONE, block3.add(i, 0.5, 0.5), 1, new Particle.DustOptions(Color.fromBGR(0, 255, 0), 1));
+				}
+				
+				block1.getBlock().setType(e.getInventory().getItem(12).getType());
+				block2.getBlock().setType(e.getInventory().getItem(30).getType());
 				
 				e.getClickedInventory().setItem(12, new ItemStack(Material.AIR));
 				e.getClickedInventory().setItem(30, new ItemStack(Material.AIR));

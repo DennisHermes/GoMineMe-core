@@ -50,3 +50,7 @@ commands:
    glow:
     description: give yourself a glow.
     permission: gomineme.glow
+   shop:
+    description: link to our store.
+   store:
+    description: link to our store.

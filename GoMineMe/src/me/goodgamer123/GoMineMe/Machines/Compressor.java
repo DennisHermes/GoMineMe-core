@@ -298,21 +298,28 @@ public class Compressor implements Listener {
 					for (int i = 0; i < p.getInventory().getSize(); i++) {
 						if (p.getInventory().getItem(i) != null) {
 							if (p.getInventory().getItem(i).getType().equals(e.getCurrentItem().getType()) && p.getInventory().getItem(i).getAmount() == 64) {
-								amount = amount + 1;
+								amount++;
 								p.getInventory().setItem(i, new ItemStack(Material.AIR));
 							}
 						}
 					}
 				} else {
+					int deducted = 0;
 					for (int i = 0; i < p.getInventory().getSize(); i++) {
 						if (p.getInventory().getItem(i) != null) {
-							if (p.getInventory().getItem(i).getType().equals(e.getCurrentItem().getType()) && p.getInventory().getItem(i).getAmount() == 64) {
+							if (p.getInventory().getItem(i).getType().equals(e.getCurrentItem().getType())) {
+								deducted = deducted + p.getInventory().getItem(i).getAmount();
 								p.getInventory().setItem(i, new ItemStack(Material.AIR));
-								amount = 1;
-								break;
+								if (deducted == 64) break;
+								else if (deducted > 64) {
+									ItemStack back = new ItemStack(e.getCurrentItem().getType());
+									back.setAmount(deducted - 64);
+									p.getInventory().setItem(i, back);
+								}
 							}
 						}
 					}
+					amount = 1;
 				}
 				
 				ItemStack item = new ItemStack(e.getCurrentItem().getType());
